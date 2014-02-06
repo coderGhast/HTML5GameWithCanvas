@@ -1,4 +1,4 @@
-HTML5_Game
+CS25210 - FTW
 ==========
 
-Using HTML5 and Canvas for practice using JS before new semester
+A place for my resources while working on any CS25210 exercises or my large assignment piece.
