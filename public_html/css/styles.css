@@ -1,0 +1,57 @@
+body{
+	background:#aaa;
+	margin:0px;
+	padding:0px;
+}
+
+h1{
+
+}
+
+h2{
+
+}
+
+h3{
+
+}
+
+a{
+
+}
+
+#wrapper{
+	width:70%;
+	margin:auto;
+	text-align:center;
+
+}
+
+#header{
+	width:100%;
+	background:#fff;
+	padding-top:3%;
+	padding-bottom:1%;
+	color:#C80000;
+	font:14px Arial;
+	margin-bottom:1%;
+}
+
+#page{
+	width:100%;
+	background:#fff;
+}
+
+#left{
+	float:left;
+	background:#fff;
+	width:68%;
+	padding:10px;
+}
+
+#right{
+	width:25%;
+	background:#fff;
+	float:right;
+	padding:10px;
+}
