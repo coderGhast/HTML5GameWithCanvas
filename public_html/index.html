@@ -2,7 +2,23 @@
 
 <head>
 <meta charset=utf-8 />
-<link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var canvas = $("#canvas_object");
+		var context = canvas.get(0).getContext("2d");
+		context.fillStyle = "rgb(255, 0, 0)";
+		context.fillRect(100, 200, 300, 100);
+		
+		context.strokeStyle = "rgb(0, 0, 255)";
+		context.beginPath(); // Start the path
+		context.moveTo(40, 40); // Set the path origin
+		context.lineTo(340, 70); // Set the path destination
+		context.closePath(); // Close the path
+		context.stroke(); // Outline the path
+	});
+</script>
+<link rel="stylesheet" type="text/css" media="screen" href="ftw.css" />
 <title>James Euesden - Exercises for Client Side Graphics Programming</title>
 </head>
 <body>
@@ -27,6 +43,12 @@
 		<div id="left">
 			<h2>About</h2>
 			<p>This is some web space for the exercises I do for Client Side Graphics Programming at Aberystwyth University in my second year.</p>
+			
+			<div id="canvas_wrapper">
+				<canvas id="canvas_object" width="500" height="500">
+				Canvas is not compatible with your browser or running scripts is disabled. Please use a more up to date browser or enable running scripts.
+			</div>
+    </canvas>
 		</div>
 		<div id="right">
 			<p>Some placement text here until later filled.</p>
