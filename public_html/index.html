@@ -9,13 +9,15 @@
 		var context = canvas.get(0).getContext("2d");
 		context.fillStyle = "rgb(255, 0, 0)";
 		context.fillRect(100, 200, 100, 100);
-
+		
 		context.strokeStyle = "rgb(0, 0, 255)";
 		context.beginPath(); // Start the path
-		context.moveTo(40, 40); // Set the path origin
-		context.lineTo(340, 70); // Set the path destination
+		context.moveTo(200, 200); // Set the path origin
+		context.lineTo(200, 300); // Set the path destination
+		context.lineTo(100, 300);
 		context.closePath(); // Close the path
 		context.stroke(); // Outline the path
+
 	});
 </script>
 <link rel="stylesheet" type="text/css" media="screen" href="ftw.css" />
