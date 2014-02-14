@@ -4,12 +4,22 @@
 <meta charset=utf-8 />
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
+	var canvas;
+	var context;
+	
 	$(document).ready(function() {
-		var canvas = $("#canvas_object");
-		var context = canvas.get(0).getContext("2d");
+		canvas = $("#canvas_object");
+		context = canvas.get(0).getContext("2d");
+		
+		drawElements();
+		drawCylinder(50,50,50,100);
+	}
+	);
+	
+	function drawElements(){
 		context.fillStyle = "rgb(255, 0, 0)";
 		context.fillRect(100, 200, 100, 100);
-		
+	
 		context.strokeStyle = "rgb(0, 0, 255)";
 		context.beginPath(); // Start the path
 		context.moveTo(200, 200); // Set the path origin
@@ -17,8 +27,7 @@
 		context.lineTo(100, 300);
 		context.closePath(); // Close the path
 		context.stroke(); // Outline the path
-
-	});
+	}
 </script>
 <link rel="stylesheet" type="text/css" media="screen" href="ftw.css" />
 <title>James Euesden - Exercises for Client Side Graphics Programming</title>
