@@ -39,8 +39,21 @@ a{
 	margin-bottom:1%;
 	height:93px;
 }
+header{
+	width:100%;
+	background:#fff;
+	padding-top:30px;
+	color:#C80000;
+	font:14px Arial;
+	margin-bottom:1%;
+	height:93px;
+}
 
 #page{
+	width:100%;
+	background:#fff;
+}
+section{
 	width:100%;
 	background:#fff;
 }
@@ -68,8 +81,16 @@ a{
 	background:#fff;
 	margin-top:2%;
 }
+footer{
+	width:100%;
+	background:#fff;
+	margin-top:2%;
+}
 
 #menu_bar{
+	margin-top:41px;
+}
+nav{
 	margin-top:41px;
 }
 

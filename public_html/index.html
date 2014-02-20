@@ -6,13 +6,16 @@
 <script type="text/javascript">
 	var canvas;
 	var context;
+    var image_x = 1;
+    var image_y = 1;
 	
 	$(document).ready(function() {
 		canvas = $("#canvas_object");
 		context = canvas.get(0).getContext("2d");
-		
+
 		drawElements();
-		drawCylinder(50,50,50,100);
+        loadImage();
+        setInterval(drawImage,10);
 	}
 	);
 	
@@ -28,6 +31,34 @@
 		context.closePath(); // Close the path
 		context.stroke(); // Outline the path
 	}
+
+    function loadImage(){
+        baseImage = new Image();
+        baseImage.src = "img/ghast_face.png";
+        baseImage.onload = function(){
+            context.drawImage(baseImage,image_x,image_y, 100, 100);
+        };
+    }
+
+    function drawImage(){
+        if(image_x > 200){
+            image_x-=5;
+        } else if(image_x < 0){
+            image_x+=5;
+        } else{
+            image_x+=5;
+        }
+
+        if(image_y > 200){
+            image_y-=5;
+        } else if(image_y < 0){
+            image_y+=5;
+        } else{
+            image_y+=5;
+        }
+
+        context.drawImage(baseImage,image_x,image_y, 100, 100);
+    }
 </script>
 <link rel="stylesheet" type="text/css" media="screen" href="ftw.css" />
 <title>James Euesden - Exercises for Client Side Graphics Programming</title>
@@ -42,6 +73,9 @@
 			<ul id="menu">
 				<li class="menu_item">
 					<a href="index.html">Home</a>
+				</li>
+				<li class="menu_item">
+					<a href="exercise1.html">Exercise 1</a>
 				</li>
 				<li class="menu_item">
 					<a href="#">Play Game</a>
