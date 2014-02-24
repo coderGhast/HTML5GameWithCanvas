@@ -44,7 +44,7 @@ function animate(time){
 	requestAnimationFrame(animate);
         if(mouseTracking){  
             if(mousePos.x != null){
-                if(mousePos.x < 400){
+                if(mousePos.x < (canvas.width/2)){
                     if(mousePos.x < 350 && mousePos.x > 300){
                         bg_x1+=4;
                         bg_x2+=2;
@@ -59,7 +59,7 @@ function animate(time){
                         bg_x3+=4;
                     }
                 }
-                if(mousePos.x > 400){
+                if(mousePos.x > (canvas.width/2)){
                     if(mousePos.x > 450 && mousePos.x < 500){
                         bg_x1-=4;
                         bg_x2-=2;
