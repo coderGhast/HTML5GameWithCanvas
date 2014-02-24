@@ -24,72 +24,39 @@ a{
 }
 
 #wrapper{
-	width:70%;
+	width:990px;
 	margin:auto;
 	text-align:center;
 
 }
 
-#header{
-	width:100%;
-	background:#fff;
-	padding-top:30px;
-	color:#C80000;
-	font:14px Arial;
-	margin-bottom:1%;
-	height:93px;
-}
 header{
-	width:100%;
+	width:990px;
 	background:#fff;
 	padding-top:30px;
 	color:#C80000;
 	font:14px Arial;
-	margin-bottom:1%;
+	margin-bottom:10px;
 	height:93px;
 }
 
-#page{
-	width:100%;
-	background:#fff;
-}
 section{
-	width:100%;
+	width:990px;
 	background:#fff;
-}
-
-#left{
-	float:left;
-	background:#fff;
-	width:68%;
 	padding:10px;
 }
 
 #canvas_object{
 	border:2px solid #000;
+	cursor:none;
 }
 
-#right{
-	width:25%;
-	background:#fff;
-	float:right;
-	padding:10px;
-}
-
-#footer{
-	width:100%;
-	background:#fff;
-	margin-top:2%;
-}
 footer{
-	width:100%;
+	width:990px;
 	background:#fff;
-	margin-top:2%;
+	margin-top:10px;
 }
 
-#menu_bar{
-	margin-top:41px;
-}
 nav{
 	margin-top:41px;
 }

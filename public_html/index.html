@@ -3,73 +3,16 @@
 <head>
 <meta charset=utf-8 />
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-<script type="text/javascript">
-	var canvas;
-	var context;
-    var image_x = 1;
-    var image_y = 1;
-	
-	$(document).ready(function() {
-		canvas = $("#canvas_object");
-		context = canvas.get(0).getContext("2d");
-
-		drawElements();
-        loadImage();
-        setInterval(drawImage,10);
-	}
-	);
-	
-	function drawElements(){
-		context.fillStyle = "rgb(255, 0, 0)";
-		context.fillRect(100, 200, 100, 100);
-	
-		context.strokeStyle = "rgb(0, 0, 255)";
-		context.beginPath(); // Start the path
-		context.moveTo(200, 200); // Set the path origin
-		context.lineTo(200, 300); // Set the path destination
-		context.lineTo(100, 300);
-		context.closePath(); // Close the path
-		context.stroke(); // Outline the path
-	}
-
-    function loadImage(){
-        baseImage = new Image();
-        baseImage.src = "img/ghast_face.png";
-        baseImage.onload = function(){
-            context.drawImage(baseImage,image_x,image_y, 100, 100);
-        };
-    }
-
-    function drawImage(){
-        if(image_x > 200){
-            image_x-=5;
-        } else if(image_x < 0){
-            image_x+=5;
-        } else{
-            image_x+=5;
-        }
-
-        if(image_y > 200){
-            image_y-=5;
-        } else if(image_y < 0){
-            image_y+=5;
-        } else{
-            image_y+=5;
-        }
-
-        context.drawImage(baseImage,image_x,image_y, 100, 100);
-    }
-</script>
 <link rel="stylesheet" type="text/css" media="screen" href="ftw.css" />
 <title>James Euesden - Exercises for Client Side Graphics Programming</title>
 </head>
 <body>
 <div id="wrapper">
-	<div id="header">
+	<header>
 		<div id="title">
 			<h1>Exercises for Client Side Graphics Programming (CS25210)</h1>
 		</div>
-		<div id="menu_bar">
+		<nav>
 			<ul id="menu">
 				<li class="menu_item">
 					<a href="index.html">Home</a>
@@ -81,32 +24,28 @@
 					<a href="#">Play Game</a>
 				</li>
 			</ul>
-		</div>
-	</div>
+		</nav>
+	</header>
 	
-	<div id="page">
-		<div id="left">
+	<section>
 			<h2>About</h2>
 			<p>This is some web space for the exercises I do for Client Side Graphics Programming at Aberystwyth University in my second year.</p>
 			
-			<div id="canvas_wrapper">
-				<canvas id="canvas_object" width="500" height="500">
+				<canvas id="canvas_object" width="800" height="500">
 				Canvas is not compatible with your browser or running scripts is disabled. Please use a more up to date browser or enable running scripts.
-			</div>
-    </canvas>
-		</div>
-		<div id="right">
-			<p>Some placement text here until later filled.</p>
-		</div>
-	</div>
+				</canvas>
+	
+	</section>
 
 
 	<div class="clear"></div>
 
-	<div id="footer">
+	<footer>
 		<div id="disclaimer">The information provided on this and other pages by me, James Euesden (jee22@aber.ac.uk), is under my own personal responsibility and not that of the Aberystwyth University. Similarly, any opinions expressed are my own and are in no way to be taken as those of Aberystwyth University.
 		</div>
-	</div>
+	</footer>
+	
+	<script type="text/javascript" src="js/first.js"></script>
 	
 </div>
 </body>
