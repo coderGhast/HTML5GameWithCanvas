@@ -43,8 +43,11 @@ header{
 section{
 	width:990px;
 	background:#fff;
-	padding:10px;
 }
+
+article{
+	padding:10px;
+}	
 
 #canvas_main{
 	border:2px solid #000;
@@ -59,6 +62,9 @@ footer{
 	width:990px;
 	background:#fff;
 	margin-top:10px;
+}
+#disclaimer{
+	padding:10px;
 }
 
 nav{
