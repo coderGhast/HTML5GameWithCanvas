@@ -59,22 +59,16 @@ article{
 }
 
 #game_wrapper{
-    width: 100%;
-    height: 100%;
-    margin: 0;
+    width: 620px;
+    height: 480px;
+    margin: auto;
+    margin-top:40px;
     padding:0;
     overflow:hidden;
 	background:#fff;
 }
 #game_main{
-	position:fixed;
-	left:0;
-	top:0;
-}
-#game_background{
-	position:fixed;
-	left:0;
-	top:0;
+	margin:auto;
 }
 
 footer{
