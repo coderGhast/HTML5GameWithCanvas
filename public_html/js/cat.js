@@ -18,9 +18,9 @@ right_paw_image.src = "img/right_paw.png";
 var left_paw_grabbing = false;
 var right_paw_grabbing = false;
 
-var fps = 11;
-var left_movement_step = 0;
-var right_movement_step = 0;
+var fps = 66;
+var left_movement_step = 3;
+var right_movement_step = 3;
 
 
 paintBackground();
@@ -34,68 +34,77 @@ for the FPS and speed of the loop.
     */
 function animate(time){
     setTimeout(function() {
-        requestAnimationFrame(animate);
-
         if(left_paw_grabbing) {
             paint_left_paw_grab();
-        } else if (right_paw_grabbing){
-            paint_right_paw_grab();
-        } else {
-            clearCanvas();
-            paintBackground();
-            paint_left_paw();
-            paint_right_paw();
         }
-
+        if (right_paw_grabbing){
+            paint_right_paw_grab();
+        }
+        requestAnimationFrame(animate);
 
     }, 1000/ fps);
 };
+// Start the game loop.
 requestAnimationFrame(animate);
 
+/*
+ * React to a user clicking left-click on the mouse.
+ */
 function left_paw_move() {
     if(!left_paw_grabbing){
+        // Set left paw to grab
         left_paw_grabbing = true;
-        right_movement_step = 0;
-        right_paw_grabbing = false;
-    } else {
-        left_paw_grabbing = false;
-        left_movement_step = 0;
+
+        // Reset the right paw to no longer grabbing
+        right_movement_step = 3;
         right_paw_grabbing = false;
     }
 }
 
+/*
+ * React to a user clicking right-click on the mouse.
+ */
 function right_paw_move() {
     if(!right_paw_grabbing){
+        // Set right paw to grab
         right_paw_grabbing = true;
-        left_movement_step = 0;
-        left_paw_grabbing = false;
-    } else {
-        right_paw_grabbing = false;
-        right_movement_step = 0;
+
+        // Reset the left paw to no longer grabbing
+        left_movement_step = 3;
         left_paw_grabbing = false;
     }
+}
+
+/*
+ * Paint the default canvas state.
+ */
+function paint_default(){
+    clearCanvas();
+    paintBackground();
+    paint_left_paw();
+    paint_right_paw();
 }
 
 
 function paint_left_paw_grab(){
-
-    var rotation = 10 * left_movement_step;
-    var width_position = left_movement_step * 10;
-    var height_position = left_movement_step * 0.5;
+    var rotation = 10.5 * left_movement_step;
+    var width_position = left_movement_step * 30;
+    var height_position = left_movement_step * 0.3;
+    var grab_position = left_movement_step * 20;
     clearCanvas();
     paintBackground();
 
-    // save the unrotated context of the canvas so we can restore it later
-    // the alternative is to untranslate & unrotate after drawing
     context.save();
     context.translate((canvas_width - left_paw_image.width) / width_position, left_paw_image.height * height_position);
     context.rotate(rotation *Math.PI/180);
-    context.drawImage(left_paw_image,0, -left_paw_image.height);
-    if(left_movement_step <= 4){
-        left_movement_step++;
+    context.drawImage(left_paw_image,0, -(left_paw_image.height + grab_position));
+    if(left_movement_step <= 6){
+        left_movement_step+=0.3;
+    } else {
+        left_paw_grabbing = false;
+        left_movement_step = 3;
     }   
 
-    // we’re done with the rotating so restore the unrotated context
     context.restore();
 
     paint_right_paw();
@@ -103,6 +112,10 @@ function paint_left_paw_grab(){
 
 
 function paint_right_paw_grab(){
+    var rotation = 10.5 * right_movement_step;
+    var width_position = right_movement_step * 30;
+    var height_position = right_movement_step * 0.3;
+    var grab_position = right_movement_step * 20;
     clearCanvas();
     paintBackground();
 
@@ -111,14 +124,20 @@ function paint_right_paw_grab(){
     context.save();
 
     // move to the center of the canvas
-    context.translate((canvas_width - right_paw_image.width) / 3, right_paw_image.height);
+    context.translate((canvas_width - right_paw_image.width) / width_position, right_paw_image.height * height_position);
 
     // rotate the canvas to the specified degrees
-    context.rotate(-50*Math.PI/180);
+    context.rotate(Math.PI/-rotation);
 
     // draw the image
     // since the context is rotated, the image will be rotated also
-    context.drawImage(right_paw_image,0,-right_paw_image.height/2);
+    context.drawImage(right_paw_image, (canvas_width - right_paw_image.width), -(right_paw_image.height - grab_position));
+    if(right_movement_step <=6){
+        right_movement_step+=0.3;
+    } else {
+        right_paw_grabbing = false;
+        right_movement_step = 3;
+    }
 
     // we’re done with the rotating so restore the unrotated context
     context.restore();
