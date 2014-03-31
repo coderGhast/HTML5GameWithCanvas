@@ -4,28 +4,32 @@ var context = canvas.getContext('2d');
 /* Stops right click bringing up the menu on canvas right-clicks. */
 $('body').on('contextmenu', '#game_main', function(e){ return false; });
 
-canvas.width = 620;
-canvas.height = 480;  
-
-var canvas_height = canvas.height;
-var canvas_width = canvas.width;
+canvas.width = 480;
+canvas.height = 580;  
 
 var left_paw_image = new Image();
 left_paw_image.src = "img/left_paw.png";
 var right_paw_image = new Image();
 right_paw_image.src = "img/right_paw.png";
 
-var left_paw_grabbing = false;
-var left_painting_grabbing = false;
-var right_paw_grabbing = false;
-var right_painting_grabbing = false;
+//===========
+var move_left_paw = false;
+var left_paw_moving = false;
+var left_paw_extended = false;
+//===========
+var move_right_paw = false;
+var right_paw_moving = false;
+var right_paw_extended = false;
+//============
 
-var fps = 66;
-var left_movement_step = 0;
-var right_movement_step = 0;
+var left_movement_width = 0;
+var left_movement_height = 0;
+var right_movement_width = 0;
+var right_movement_height = 0;
 
+var fps = 60;
+var interval = 1000/fps;
 
-paintBackground();
 loadImages();
 
 
@@ -36,127 +40,164 @@ for the FPS and speed of the loop.
     */
 function animate(time){
     setTimeout(function() {
-        if(left_painting_grabbing) {
-            paint_left_paw_grab();
-        }
-        if (right_paw_grabbing && !left_paw_grabbing){
-            paint_right_paw_grab();
-        }
-        requestAnimationFrame(animate);
 
-    }, 1000/ fps);
+        window.requestAnimationFrame(animate);
+
+        if(move_left_paw){
+            handle_left_paw_movement();
+        }
+        if(move_right_paw){
+            handle_right_paw_movement();
+        }
+        
+    }, interval);
 };
+
+function handle_left_paw_movement(){
+    if(right_paw_extended){
+        reset_left_paw();
+        right_paw_extended = false;
+    }
+    clearCanvas();
+    if(!left_paw_extended){
+        paint_left_paw_grab();
+        if(left_movement_width <  canvas.width / 50){
+            left_movement_width++;
+        } else {
+            left_movement_height++;
+            if(left_movement_height > 10){
+                left_paw_extended = true;
+                move_left_paw = false;
+            }
+        }
+    } else if(left_paw_extended){
+        paint_left_paw_grab();
+        if(left_movement_height > 0){
+            left_movement_height--;
+        } else {
+            left_movement_width--;
+            if(left_movement_width == 0){
+                left_paw_extended = false;
+                move_left_paw = false;
+            }
+        }
+    }
+    if(right_paw_extended){
+        paint_right_paw_grab();
+    } else {
+        paint_right_paw();
+    }
+}
+
+function handle_right_paw_movement(){
+    if(left_paw_extended){
+        reset_right_paw();
+        left_paw_extended = false;
+    }
+    clearCanvas();
+    if(!right_paw_extended){
+        paint_right_paw_grab();
+        if(right_movement_width < canvas.width / 50){
+            right_movement_width++;
+        } else {
+            right_movement_height++;
+            if(right_movement_height > 10){
+                right_paw_extended = true;
+                move_right_paw = false;
+            }
+        }
+    } else if(right_paw_extended){
+        paint_right_paw_grab();
+        if(right_movement_height > 0){
+            right_movement_height--;
+        } else {
+            right_movement_width--;
+            if(right_movement_width == 0){
+                right_paw_extended = false;
+                move_right_paw = false;
+            }
+        }
+    }
+    if(left_paw_extended){
+        paint_left_paw_grab();
+    } else {
+        paint_left_paw();
+    }
+}
+
 // Start the game loop.
 requestAnimationFrame(animate);
+
+function reset_left_paw(){
+    left_movement_width = 0;
+    left_movement_height = 0;
+    left_paw_extended = false;
+    move_left_paw = false;
+}
+
+function reset_right_paw(){
+    right_movement_width = 0;
+    right_movement_height = 0;
+    right_paw_extended = false;
+    move_right_paw = false;
+}
 
 /*
  * React to a user clicking left-click on the mouse.
  */
-function left_paw_move() {
-    if(!left_paw_grabbing){
-        // Set left paw to grab
-        left_paw_grabbing = true;
-        left_painting_grabbing = true;
-        // Reset the right paw to no longer grabbing
-        right_paw_grabbing = false;
-    } else if(left_paw_grabbing){
-        left_paw_grabbing = false;
-        left_painting_grabbing = true;
+ function left_paw_click() {
+    if(!move_left_paw && !left_paw_moving){
+        move_left_paw = true;
     }
 }
 
 /*
  * React to a user clicking right-click on the mouse.
  */
-function right_paw_move() {
-    if(!right_paw_grabbing){
-        // Set right paw to grab
-        right_paw_grabbing = true;
-
-        // Reset the left paw to no longer grabbing
-        left_paw_grabbing = false;
+ function right_paw_click() {
+    if(!move_right_paw && !right_paw_moving){
+        move_right_paw = true;
     }
 }
 
 /*
  * Paint the default canvas state.
  */
-function paint_default(){
+ function paint_default(){
     clearCanvas();
-    paintBackground();
     paint_left_paw();
     paint_right_paw();
 }
 
 
 function paint_left_paw_grab(){
-    clearCanvas();
-    paintBackground();
-
     context.save();
-    context.translate((left_movement_step * 10), 0);
+    context.translate((left_movement_width * 23), (left_movement_height * 10));
+    context.rotate(left_movement_height* (Math.PI / 180));
     paint_left_paw();
-
     context.restore();
-
-    paint_right_paw();
-
-    if(left_painting_grabbing && left_movement_step <= 6){
-        left_movement_step++;
-    } else {
-        if(left_painting_grabbing && left_movement_step >= 0){
-            
-        left_movement_step = 0;
-        left_painting_grabbing = false;
-        }
-    }
 }
-
 
 function paint_right_paw_grab(){
-    clearCanvas();
-    paintBackground();
-
-    // save the unrotated context of the canvas so we can restore it later
-    // the alternative is to untranslate & unrotate after drawing
     context.save();
-
-    // move to the center of the canvas
-  //context.translate((canvas_width - right_paw_image.width) / width_position, (canvas_height - right_paw_image.height) * height_position);
-
-    // rotate the canvas to the specified degrees
-    //context.rotate((-rotation * Math.PI)/180);
-
-    // draw the image
-    // since the context is rotated, the image will be rotated also
-    //context.drawImage(right_paw_image, (canvas_width - right_paw_image.width), -(right_paw_image.height + grab_position));
-    
-
-    // we’re done with the rotating so restore the unrotated context
+    context.translate(-((right_movement_width * 23) - (canvas.width / 2) - (right_paw_image.width / 4)),
+     (right_movement_height * 10) + (canvas.height / 2) + (right_paw_image.height / 4));
+    context.rotate(-(right_movement_height * (Math.PI / 180)));
+    context.drawImage(right_paw_image, 0, 0);
     context.restore();
-
-    paint_left_paw();
-
-    right_paw_grabbing = false;
-}
-
-function paintBackground() {
-    context.fillStyle = "gray";
-    context.rect(0, 0, window.innerWidth, window.innerHeight);
-    context.fill();
 }
 
 function clearCanvas() {
-    context.clearRect(0, 0, canvas_width, canvas_height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function paint_left_paw(){
-    context.drawImage(left_paw_image, 0, canvas_height - left_paw_image.height);
+    context.drawImage(left_paw_image, 0 - 150, canvas.height - (left_paw_image.height * 1.3));
 
 }
 
 function paint_right_paw(){
-    context.drawImage(right_paw_image, canvas_width - right_paw_image.width, canvas_height - right_paw_image.height);
+    context.drawImage(right_paw_image, canvas.width - 150, canvas.height - (right_paw_image.height * 1.3));
 
 }
 
