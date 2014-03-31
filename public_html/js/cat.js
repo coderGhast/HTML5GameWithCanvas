@@ -1,9 +1,6 @@
 var canvas = document.getElementById('game_main');
 var context = canvas.getContext('2d');
 
-/* Stops right click bringing up the menu on canvas right-clicks. */
-$('body').on('contextmenu', '#game_main', function(e){ return false; });
-
 canvas.width = 480;
 canvas.height = 580;  
 
@@ -55,17 +52,16 @@ function animate(time){
 
 function handle_left_paw_movement(){
     if(right_paw_extended){
-        reset_left_paw();
-        right_paw_extended = false;
+        reset_right_paw();
     }
     clearCanvas();
     if(!left_paw_extended){
         paint_left_paw_grab();
-        if(left_movement_width <  canvas.width / 50){
+        if(left_movement_width <=  canvas.width / 50){
             left_movement_width++;
         } else {
             left_movement_height++;
-            if(left_movement_height > 10){
+            if(left_movement_height >= 10){
                 left_paw_extended = true;
                 move_left_paw = false;
             }
@@ -91,8 +87,7 @@ function handle_left_paw_movement(){
 
 function handle_right_paw_movement(){
     if(left_paw_extended){
-        reset_right_paw();
-        left_paw_extended = false;
+        reset_left_paw();
     }
     clearCanvas();
     if(!right_paw_extended){
@@ -172,18 +167,21 @@ function reset_right_paw(){
 
 function paint_left_paw_grab(){
     context.save();
-    context.translate((left_movement_width * 23), (left_movement_height * 10));
-    context.rotate(left_movement_height* (Math.PI / 180));
-    paint_left_paw();
+    context.translate(0 - (left_paw_image.width / 2), canvas.height - (left_paw_image.height * 1.3));
+    context.rotate(left_movement_height * (Math.PI / 180));  
+    // Return the canvas/paw back to where the image should be painted.
+    // NOTE: 24 - The 'reach' of the paw in width, 10 - The - 'pull/push' of the paw in height.
+    context.translate((left_movement_width * 24), (left_movement_height * 10));
+    context.drawImage(left_paw_image, 0, 0); 
     context.restore();
 }
 
 function paint_right_paw_grab(){
     context.save();
-    context.translate(-((right_movement_width * 23) - (canvas.width / 2) - (right_paw_image.width / 4)),
-     (right_movement_height * 10) + (canvas.height / 2) + (right_paw_image.height / 4));
-    context.rotate(-(right_movement_height * (Math.PI / 180)));
-    context.drawImage(right_paw_image, 0, 0);
+    context.translate(canvas.width - (right_paw_image.width / 2), canvas.height - (right_paw_image.height * 1.3));
+    context.rotate(-(right_movement_height) * (Math.PI / 180));  
+    context.translate(-(right_movement_width * 24), (right_movement_height * 10));
+    context.drawImage(right_paw_image, 0, 0); 
     context.restore();
 }
 
@@ -192,12 +190,12 @@ function clearCanvas() {
 }
 
 function paint_left_paw(){
-    context.drawImage(left_paw_image, 0 - 150, canvas.height - (left_paw_image.height * 1.3));
+    context.drawImage(left_paw_image, 0 - (left_paw_image.width / 2), canvas.height - (left_paw_image.height * 1.3));
 
 }
 
 function paint_right_paw(){
-    context.drawImage(right_paw_image, canvas.width - 150, canvas.height - (right_paw_image.height * 1.3));
+    context.drawImage(right_paw_image, canvas.width - (right_paw_image.width / 2), canvas.height - (right_paw_image.height * 1.3));
 
 }
 
