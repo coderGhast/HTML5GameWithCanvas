@@ -65,6 +65,7 @@ function animate(time){
     }, interval);
 };
 
+// TEMPORARY : Just to display the animation on the canvas.
 function paint_sushi(){
     context.drawImage(food_sushi, 100 * sushi_frame, 0, 100, 100, (canvas.width / 2) - (food_sushi.width / 4), (canvas.height / 2) - (food_sushi.height / 4), 100, 100);
 }
