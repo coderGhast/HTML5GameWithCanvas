@@ -24,7 +24,12 @@ var left_movement_height = 0;
 var right_movement_width = 0;
 var right_movement_height = 0;
 
-var fps = 60;
+var food_sushi = new Image();
+food_sushi.src = "img/foodstuffs/sushi_sprite.png";
+var sushi_frame = 0;
+var counter = 0;
+
+var fps = 66;
 var interval = 1000/fps;
 
 loadImages();
@@ -46,9 +51,23 @@ function animate(time){
         if(move_right_paw){
             handle_right_paw_movement();
         }
-        
+
+        counter++;
+        if(counter > 150 && sushi_frame == 0){
+            sushi_frame = 1;
+        }
+        if(counter > 180 && sushi_frame ==1){
+            sushi_frame = 0;
+            counter = 0;
+        }
+        context.clearRect((canvas.width / 2) - (food_sushi.width / 4), (canvas.height / 2) - (food_sushi.height / 4), 100, 100);
+        paint_sushi();
     }, interval);
 };
+
+function paint_sushi(){
+    context.drawImage(food_sushi, 100 * sushi_frame, 0, 100, 100, (canvas.width / 2) - (food_sushi.width / 4), (canvas.height / 2) - (food_sushi.height / 4), 100, 100);
+}
 
 function handle_left_paw_movement(){
     if(right_paw_extended){
@@ -57,7 +76,7 @@ function handle_left_paw_movement(){
     clearCanvas();
     if(!left_paw_extended){
         paint_left_paw_grab();
-        if(left_movement_width <=  canvas.width / 50){
+        if(left_movement_width <=  canvas.width / 100){
             left_movement_width++;
         } else {
             left_movement_height++;
@@ -92,7 +111,7 @@ function handle_right_paw_movement(){
     clearCanvas();
     if(!right_paw_extended){
         paint_right_paw_grab();
-        if(right_movement_width < canvas.width / 50){
+        if(right_movement_width < canvas.width / 100){
             right_movement_width++;
         } else {
             right_movement_height++;
@@ -141,7 +160,8 @@ function reset_right_paw(){
  * React to a user clicking left-click on the mouse.
  */
  function left_paw_click() {
-    if(!move_left_paw && !left_paw_moving){
+    // Check that no paw is currently already moving.
+    if(!move_left_paw && !left_paw_moving && !move_right_paw && !right_paw_moving){
         move_left_paw = true;
     }
 }
@@ -150,7 +170,8 @@ function reset_right_paw(){
  * React to a user clicking right-click on the mouse.
  */
  function right_paw_click() {
-    if(!move_right_paw && !right_paw_moving){
+    // Check that no paw is currently already moving.
+    if(!move_right_paw && !right_paw_moving && !move_left_paw && !left_paw_moving){
         move_right_paw = true;
     }
 }
@@ -171,7 +192,7 @@ function paint_left_paw_grab(){
     context.rotate(left_movement_height * (Math.PI / 180));  
     // Return the canvas/paw back to where the image should be painted.
     // NOTE: 24 - The 'reach' of the paw in width, 10 - The - 'pull/push' of the paw in height.
-    context.translate((left_movement_width * 24), (left_movement_height * 10));
+    context.translate((left_movement_width * 50), (left_movement_height * 10));
     context.drawImage(left_paw_image, 0, 0); 
     context.restore();
 }
@@ -180,7 +201,7 @@ function paint_right_paw_grab(){
     context.save();
     context.translate(canvas.width - (right_paw_image.width / 2), canvas.height - (right_paw_image.height * 1.3));
     context.rotate(-(right_movement_height) * (Math.PI / 180));  
-    context.translate(-(right_movement_width * 24), (right_movement_height * 10));
+    context.translate(-(right_movement_width * 50), (right_movement_height * 10));
     context.drawImage(right_paw_image, 0, 0); 
     context.restore();
 }
