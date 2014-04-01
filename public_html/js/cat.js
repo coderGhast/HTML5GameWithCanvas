@@ -12,14 +12,14 @@ var move_right_paw = false;
 var right_paw_moving = false;
 var right_paw_extended = false;
 //============
+var knock_item = false;
+var pull_item = false;
+var keep_painting_item = true;
 
 var left_movement_width = 0;
 var left_movement_height = 0;
 var right_movement_width = 0;
 var right_movement_height = 0;
-
-loadImages();
-
 
 /* This is the main 'game loop', that
 continues throughout the time that
@@ -37,16 +37,40 @@ function animate(time){
         if(move_right_paw){
             handle_right_paw_movement();
         }
+        
 
-        // TEMPORARY : Clear the space the sushi occupied in order to keep it a clean reloading image.
-        context.clearRect((canvas.width / 2) - (food_sushi.width / 4), get_sushi_height_position(), 100, 100);
-        paint_sushi();
+        if(keep_painting_item){
+            if(pull_item && !move_right_paw && !move_left_paw){
+                current_item_height = current_item_height + (canvas.height / 6);
+                pull_item = false;
+            } else if(knock_item){
+
+            }
+            paint_item();
+        } else {
+            current_item_height = default_item_height;
+            keep_painting_item = true;
+        }
     }, interval);
 };
 
 // TEMPORARY : Just to display the animation on the canvas.
-function paint_sushi(){
-    context.drawImage(food_sushi, 100 * sushi_frame, 0, 100, 100, (canvas.width / 2) - (food_sushi.width / 4), get_sushi_height_position(), 100, 100);
+function paint_item(){
+    // TEMPORARY : Clear the space the sushi occupied in order to keep it a clean reloading image.
+    context.clearRect((canvas.width / 2) - (front_item.width / 4), get_item_height_position(), 100, 100);
+    context.drawImage(front_item, 100 * item_frame, 0, 100, 100, (canvas.width / 2) - (front_item.width / 4), get_item_height_position(), 100, 100);
+}
+
+function game_step(){
+
+    audio.addEventListener("ended", loop, false);
+
+    check_music();
+
+    if(current_item_height >= (canvas.height / 6) * 4){
+        keep_painting_item = false;   
+    }
+    setTimeout(game_step, interval);
 }
 
 function handle_left_paw_movement(){
@@ -120,7 +144,11 @@ function handle_right_paw_movement(){
 }
 
 // Start the game loop.
+loadImages();
+// AUDIO - FOR LATER - WILL DRIVE ME MAD DURING TESTING IF I HEAR IT ALL THE TIME
+audio.play();
 requestAnimationFrame(animate);
+game_step();
 blink_controller();
 
 function reset_left_paw(){
@@ -145,6 +173,12 @@ function reset_right_paw(){
     if(!move_left_paw && !left_paw_moving && !move_right_paw && !right_paw_moving){
         move_left_paw = true;
     }
+
+    if(!left_paw_extended){
+        pull_item = true;
+    } else {
+        knock_item = true;
+    }
 }
 
 /*
@@ -154,6 +188,12 @@ function reset_right_paw(){
     // Check that no paw is currently already moving.
     if(!move_right_paw && !right_paw_moving && !move_left_paw && !left_paw_moving){
         move_right_paw = true;
+    }
+
+    if(!right_paw_extended){
+        pull_item = true;
+    } else {
+        knock_item = true;
     }
 }
 
