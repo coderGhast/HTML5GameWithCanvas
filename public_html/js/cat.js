@@ -1,9 +1,3 @@
-var canvas = document.getElementById('game_main');
-var context = canvas.getContext('2d');
-
-canvas.width = 480;
-canvas.height = 580;  
-
 var left_paw_image = new Image();
 left_paw_image.src = "img/left_paw.png";
 var right_paw_image = new Image();
@@ -23,14 +17,6 @@ var left_movement_width = 0;
 var left_movement_height = 0;
 var right_movement_width = 0;
 var right_movement_height = 0;
-
-var food_sushi = new Image();
-food_sushi.src = "img/foodstuffs/sushi_sprite.png";
-var sushi_frame = 0;
-var counter = 0;
-
-var fps = 66;
-var interval = 1000/fps;
 
 loadImages();
 
@@ -52,22 +38,15 @@ function animate(time){
             handle_right_paw_movement();
         }
 
-        counter++;
-        if(counter > 150 && sushi_frame == 0){
-            sushi_frame = 1;
-        }
-        if(counter > 180 && sushi_frame ==1){
-            sushi_frame = 0;
-            counter = 0;
-        }
-        context.clearRect((canvas.width / 2) - (food_sushi.width / 4), (canvas.height / 2) - (food_sushi.height / 4), 100, 100);
+        // TEMPORARY : Clear the space the sushi occupied in order to keep it a clean reloading image.
+        context.clearRect((canvas.width / 2) - (food_sushi.width / 4), get_sushi_height_position(), 100, 100);
         paint_sushi();
     }, interval);
 };
 
 // TEMPORARY : Just to display the animation on the canvas.
 function paint_sushi(){
-    context.drawImage(food_sushi, 100 * sushi_frame, 0, 100, 100, (canvas.width / 2) - (food_sushi.width / 4), (canvas.height / 2) - (food_sushi.height / 4), 100, 100);
+    context.drawImage(food_sushi, 100 * sushi_frame, 0, 100, 100, (canvas.width / 2) - (food_sushi.width / 4), get_sushi_height_position(), 100, 100);
 }
 
 function handle_left_paw_movement(){
@@ -142,6 +121,7 @@ function handle_right_paw_movement(){
 
 // Start the game loop.
 requestAnimationFrame(animate);
+blink_controller();
 
 function reset_left_paw(){
     left_movement_width = 0;

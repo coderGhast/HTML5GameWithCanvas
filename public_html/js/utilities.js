@@ -8,6 +8,25 @@
 
 */
 
+/**
+	Load the canvas element itself.
+*/
+var canvas = document.getElementById('game_main');
+var context = canvas.getContext('2d');
+
+/**
+	Define the canvas properties.
+*/
+canvas.width = 480;
+canvas.height = 580;  
+
+
+/**
+	Variables for controlling the animation speed of the game loop.
+*/
+var fps = 66;
+var interval = 1000/fps;
+
 var utilities = {}
 /**
 	Support animating for the game loop in browsers that may not yet

@@ -65,7 +65,8 @@ article{
     margin-top:40px;
     padding:0;
     overflow:hidden;
-	background:#fff;
+    border:1px solid #000;
+	background:url('img/table.png') no-repeat #fff;
 }
 #game_main{
 	margin:auto;
