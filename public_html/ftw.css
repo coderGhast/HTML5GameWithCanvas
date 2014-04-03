@@ -49,15 +49,6 @@ article{
 	padding:10px;
 }	
 
-#canvas_main{
-	border:2px solid #000;
-	cursor:none;
-	margin-top:-502px;
-}
-#canvas_city_1{
-	cursor:none;
-}
-
 #game_wrapper{
     width: 480px;
     height: 580px;
@@ -69,7 +60,12 @@ article{
 	background:url('img/table.png') no-repeat #fff;
 }
 #game_main{
-	margin:auto;
+	cursor:none;
+	margin-top:-580px;
+}
+
+#food_canvas{
+	cursor: :none;
 }
 
 #game_background_audio{

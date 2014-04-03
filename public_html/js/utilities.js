@@ -14,11 +14,19 @@
 var canvas = document.getElementById('game_main');
 var context = canvas.getContext('2d');
 
+var food_canvas = document.getElementById('food_canvas');
+var food_context = food_canvas.getContext('2d');
+
+// Array for all of the items in the game
+var game_items = new Array();
+
 /**
 	Define the canvas properties.
 */
 canvas.width = 480;
+food_canvas.width = 480;
 canvas.height = 580;  
+food_canvas.height = 580;
 
 
 /**

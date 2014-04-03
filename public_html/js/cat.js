@@ -16,20 +16,19 @@ var knock_item = false;
 var pull_item = false;
 var keep_painting_item = true;
 
+var spin_degrees = 0;
+
 var left_movement_width = 0;
 var left_movement_height = 0;
 var right_movement_width = 0;
 var right_movement_height = 0;
 
-/* This is the main 'game loop', that
-continues throughout the time that
-the page is loaded. It also has parameters
-for the FPS and speed of the loop.
-    */
+
 function animate(time){
     setTimeout(function() {
 
         window.requestAnimationFrame(animate);
+        clear_food_canvas();
 
         if(move_left_paw){
             handle_left_paw_movement();
@@ -37,38 +36,49 @@ function animate(time){
         if(move_right_paw){
             handle_right_paw_movement();
         }
-        
 
-        if(keep_painting_item){
+        if(keep_painting_item && !knock_item){
             if(pull_item && !move_right_paw && !move_left_paw){
-                current_item_height = current_item_height + (canvas.height / 6);
+                for (var i=0,  len = game_items.length; i < len; i++) {
+                    game_items[i].item_height_position = game_items[i].item_height_position + (canvas.height / 6);
+                }
+                add_new_item();
+                game_items[game_items.length - 1].update_blink();
                 pull_item = false;
-            } else if(knock_item){
-
             }
-            paint_item();
-        } else {
-            current_item_height = default_item_height;
-            keep_painting_item = true;
+        } else if(knock_item){
+            //paint_knock_item(game_items[0]);
+            //game_items.shift();
+            knock_item = false;
+
         }
+
+        for (var i=0,  len = game_items.length; i < len; i++) {
+            game_items[i].paint_item();
+        }
+
     }, interval);
 };
 
-// TEMPORARY : Just to display the animation on the canvas.
-function paint_item(){
-    // TEMPORARY : Clear the space the sushi occupied in order to keep it a clean reloading image.
-    context.clearRect((canvas.width / 2) - (front_item.width / 4), get_item_height_position(), 100, 100);
-    context.drawImage(front_item, 100 * item_frame, 0, 100, 100, (canvas.width / 2) - (front_item.width / 4), get_item_height_position(), 100, 100);
-}
+
 
 function game_step(){
 
-    audio.addEventListener("ended", loop, false);
+    spin_degrees = spin_degrees + 4;
+    if(spin_degrees > 360){
+        spin_degrees = 0;
+    }
 
     check_music();
 
-    if(current_item_height >= (canvas.height / 6) * 4){
-        keep_painting_item = false;   
+    if(knock_item){
+        //keep_painting_item = false;   
+    }
+
+    for (var i=0; i < game_items.length; i++) {
+        if(game_items[i].item_height_position > (canvas. width / 6) * 4){
+            game_items.shift();
+        }
     }
     setTimeout(game_step, interval);
 }
@@ -145,11 +155,16 @@ function handle_right_paw_movement(){
 
 // Start the game loop.
 loadImages();
-// AUDIO - FOR LATER - WILL DRIVE ME MAD DURING TESTING IF I HEAR IT ALL THE TIME
+// Start the autio
 audio.play();
+// Add the first item to the array of game_items.
+add_new_item();
+// Start animation
 requestAnimationFrame(animate);
+// Start the game logic loop
 game_step();
-blink_controller();
+// Add listener to audio for looping
+audio.addEventListener("ended", loop, false);
 
 function reset_left_paw(){
     left_movement_width = 0;
@@ -176,8 +191,10 @@ function reset_right_paw(){
 
     if(!left_paw_extended){
         pull_item = true;
-    } else {
+        knock_item = false;
+    } else if(game_items[0].item_height_position > (canvas.height / 6) * 4){
         knock_item = true;
+        pull_item = false;
     }
 }
 
@@ -192,8 +209,9 @@ function reset_right_paw(){
 
     if(!right_paw_extended){
         pull_item = true;
-    } else {
+    } else if(game_items[0].item_height_position > (canvas.height / 6) * 4){
         knock_item = true;
+        pull_item = false;
     }
 }
 
@@ -212,7 +230,7 @@ function paint_left_paw_grab(){
     context.translate(0 - (left_paw_image.width / 2), canvas.height - (left_paw_image.height * 1.3));
     context.rotate(left_movement_height * (Math.PI / 180));  
     // Return the canvas/paw back to where the image should be painted.
-    // NOTE: 24 - The 'reach' of the paw in width, 10 - The - 'pull/push' of the paw in height.
+    // NOTE: 50 - The 'reach' of the paw in width, 10 - The - 'pull/push' of the paw in height.
     context.translate((left_movement_width * 50), (left_movement_height * 10));
     context.drawImage(left_paw_image, 0, 0); 
     context.restore();
