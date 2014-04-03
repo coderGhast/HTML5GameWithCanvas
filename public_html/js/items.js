@@ -11,6 +11,7 @@ function Item(type){
 
     this.blink_num = 0;
     this.blink_timer = 1000/60;
+    this.counter_count = 0;
 
     this.x = (food_canvas.width / 2) - 50;
     this.y = food_canvas.height / 8;
@@ -64,4 +65,8 @@ Item.prototype.paint_knock_item = function(){
     food_context.translate(-(this.image.width / 4), -(this.image.height / 2));
     food_context.drawImage(this.image, 100 * this.item_frame, 0, 100, 80, 0, 0, 100, 80);
     food_context.restore();
+}
+
+Item.prototype.paint_eaten_item = function(){
+
 }

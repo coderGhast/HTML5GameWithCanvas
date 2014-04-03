@@ -69,6 +69,7 @@ function game_step(){
             if(!game_items[i].to_be_knocked){
                 if(game_items[i].y > (canvas.height / 6) * 3){
                     hud_object.add_score(game_items[i].score_value);
+                    hud_object.most_recent_eaten = game_items[i];
                     game_items.shift();
                 }
                 if(game_items[i].y < (canvas.height / 6 ) * 4){

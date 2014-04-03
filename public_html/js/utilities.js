@@ -23,7 +23,6 @@ var hud_context = hud_canvas.getContext('2d');
 // Array for all of the items in the game
 var game_items = new Array();
 var bounced_items = new Array();
-var eaten_items = new Array();
 
 /**
 	Define the canvas properties.
@@ -56,7 +55,22 @@ if(!window.requestAnimationFrame){
 										return window.setTimeout(callback, 1000/60);
 									});
 }
-	
+
+
+/* Stops right click bringing up the menu on canvas right-clicks. */
+$('body').on('contextmenu', '#game_main', function(e){ return false; });
+$('body').on('contextmenu', '#food_canvas', function(e){ return false; });
+$('body').on('contextmenu', '#hud_canvas', function(e){ return false; });
+
+/* JQuery script to detect mouse clicks! */
+$('#hud_canvas').mousedown(function(event) {
+    if(event.which == 1){
+        left_paw_click();
+    } else if(event.which == 3){
+        right_paw_click();
+    }
+});
+
 /**
 	Support for getting the position of the mouse upon an element
 	passed as a parameter. Not all browsers support 'mousePos'
