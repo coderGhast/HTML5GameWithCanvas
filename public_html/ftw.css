@@ -65,7 +65,13 @@ article{
 }
 
 #food_canvas{
-	cursor: :none;
+	cursor: none;
+
+}
+
+#hud_canvas{
+	cursor: none;
+	margin-top: -580px
 }
 
 #game_background_audio{

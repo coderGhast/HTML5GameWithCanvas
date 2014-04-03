@@ -18,68 +18,100 @@ var keep_painting_item = true;
 
 var spin_degrees = 0;
 
+var hud_object = new Hud();
+
 var left_movement_width = 0;
 var left_movement_height = 0;
 var right_movement_width = 0;
 var right_movement_height = 0;
 
+run();
+
+function run(){
+// Start the game loop.
+loadImages();
+// Start the autio
+//audio.play();
+// Add the first item to the array of game_items.
+add_new_item();
+// Start animation
+requestAnimationFrame(animate);
+// Start the game logic loop
+game_step();
+// Blink, my pretties! Blink!
+blink_controller();
+// Add listener to audio for looping
+audio.addEventListener("ended", loop, false);
+}
 
 function animate(time){
     setTimeout(function() {
-
         window.requestAnimationFrame(animate);
-        clear_food_canvas();
-
+        
         if(move_left_paw){
             handle_left_paw_movement();
         }
         if(move_right_paw){
             handle_right_paw_movement();
         }
+        spin_controller();
+        paint_all_items();
 
-        if(keep_painting_item && !knock_item){
-            if(pull_item && !move_right_paw && !move_left_paw){
-                for (var i=0,  len = game_items.length; i < len; i++) {
-                    game_items[i].item_height_position = game_items[i].item_height_position + (canvas.height / 6);
-                }
-                add_new_item();
-                game_items[game_items.length - 1].update_blink();
-                pull_item = false;
-            }
-        } else if(knock_item){
-            //paint_knock_item(game_items[0]);
-            //game_items.shift();
-            knock_item = false;
-
-        }
-
-        for (var i=0,  len = game_items.length; i < len; i++) {
-            game_items[i].paint_item();
-        }
-
+        hud_object.print_hud_overlay();
     }, interval);
 };
 
 
 
 function game_step(){
-
-    spin_degrees = spin_degrees + 4;
-    if(spin_degrees > 360){
-        spin_degrees = 0;
+    if(pull_item && !move_right_paw && !move_left_paw){
+        for (var i=0;  i < game_items.length; i++) {
+            if(!game_items[i].to_be_knocked){
+                if(game_items[i].y > (canvas.height / 6) * 3){
+                    hud_object.add_score(game_items[i].score_value);
+                    game_items.shift();
+                }
+                if(game_items[i].y < (canvas.height / 6 ) * 4){
+                    game_items[i].y = game_items[i].y + (canvas.height / 6);
+                }
+            }
+        }
+        add_new_item();
+        pull_item = false;
+    } else if(knock_item){
+        for (var i=0;  i < game_items.length; i++) {
+            if(game_items[i].y > (canvas.height / 6) * 3){
+                 game_items[i].to_be_knocked = true;
+                 if(move_left_paw){
+                    game_items[i].pushed_by = 1;
+                } else {
+                    game_items[i].pushed_by = 3;
+                }
+                 bounced_items.push(game_items[i]);
+                 game_items.shift();
+            }
+        }
+        knock_item = false;
     }
 
-    check_music();
-
-    if(knock_item){
-        //keep_painting_item = false;   
-    }
-
-    for (var i=0; i < game_items.length; i++) {
-        if(game_items[i].item_height_position > (canvas. width / 6) * 4){
-            game_items.shift();
+    if(bounced_items.length > 0){
+        for(var i=0; i < bounced_items.length; i++){
+            if(bounced_items[i].pushed_by == 1){
+                bounced_items[i].x-=bounced_items[i].bounce_x;
+                bounced_items[i].y-=bounced_items[i].bounce_y;
+            } else {
+                bounced_items[i].x+=bounced_items[i].bounce_x;
+                bounced_items[i].y-=bounced_items[i].bounce_y;
+            }
+            if(bounced_items[i].x < 0 - 50 || bounced_items[i].x > canvas.width 
+                || bounced_items[i].y < 0 - 50 || bounced_items[i].y > canvas.height){
+                bounced_items.shift();
+            }
         }
     }
+
+
+    check_music();
     setTimeout(game_step, interval);
 }
 
@@ -153,19 +185,6 @@ function handle_right_paw_movement(){
     }
 }
 
-// Start the game loop.
-loadImages();
-// Start the autio
-audio.play();
-// Add the first item to the array of game_items.
-add_new_item();
-// Start animation
-requestAnimationFrame(animate);
-// Start the game logic loop
-game_step();
-// Add listener to audio for looping
-audio.addEventListener("ended", loop, false);
-
 function reset_left_paw(){
     left_movement_width = 0;
     left_movement_height = 0;
@@ -191,10 +210,9 @@ function reset_right_paw(){
 
     if(!left_paw_extended){
         pull_item = true;
-        knock_item = false;
-    } else if(game_items[0].item_height_position > (canvas.height / 6) * 4){
-        knock_item = true;
+    } else {
         pull_item = false;
+        knock_item = true;
     }
 }
 
@@ -209,20 +227,12 @@ function reset_right_paw(){
 
     if(!right_paw_extended){
         pull_item = true;
-    } else if(game_items[0].item_height_position > (canvas.height / 6) * 4){
-        knock_item = true;
+    } else {
         pull_item = false;
+        knock_item = true;
     }
 }
 
-/*
- * Paint the default canvas state.
- */
- function paint_default(){
-    clearCanvas();
-    paint_left_paw();
-    paint_right_paw();
-}
 
 
 function paint_left_paw_grab(){

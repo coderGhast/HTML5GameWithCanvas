@@ -17,16 +17,23 @@ var context = canvas.getContext('2d');
 var food_canvas = document.getElementById('food_canvas');
 var food_context = food_canvas.getContext('2d');
 
+var hud_canvas = document.getElementById('hud_canvas');
+var hud_context = hud_canvas.getContext('2d');
+
 // Array for all of the items in the game
 var game_items = new Array();
+var bounced_items = new Array();
+var eaten_items = new Array();
 
 /**
 	Define the canvas properties.
 */
 canvas.width = 480;
 food_canvas.width = 480;
+hud_canvas.width = 480;
 canvas.height = 580;  
 food_canvas.height = 580;
+hud_canvas.height = 580;
 
 
 /**

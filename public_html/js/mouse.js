@@ -5,6 +5,8 @@ mouse = utilities.captureMouse(canvas);
 
 /* Stops right click bringing up the menu on canvas right-clicks. */
 $('body').on('contextmenu', '#game_main', function(e){ return false; });
+$('body').on('contextmenu', '#food_canvas', function(e){ return false; });
+$('body').on('contextmenu', '#hud_canvas', function(e){ return false; });
 
 /* JQuery script to detect mouse clicks! */
 $('#game_main').mousedown(function(event) {
