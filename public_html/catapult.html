@@ -8,6 +8,7 @@
 </head>
 <body>
 <div id="game_wrapper">
+                    <canvas id="watcher_canvas"></canvas>
                     <canvas id="food_canvas"></canvas>
                     
                     <canvas id="game_main">
@@ -16,7 +17,7 @@
                     <canvas id="hud_canvas"></canvas>
                     
 </div> 
-<button onclick="stop_music()">Toggle Music</button>
+<button onclick="audio_handler.stop_music()">Toggle Music</button>
 
 <audio src="music/DST-XToFly.mp3" id="game_background_audio" controls></audio>
 </body>

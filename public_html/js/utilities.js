@@ -24,15 +24,20 @@ var hud_context = hud_canvas.getContext('2d');
 var game_items = new Array();
 var bounced_items = new Array();
 
+var watcher_canvas = document.getElementById('watcher_canvas');
+var watcher_context = watcher_canvas.getContext('2d');
+
 /**
 	Define the canvas properties.
 */
 canvas.width = 480;
 food_canvas.width = 480;
 hud_canvas.width = 480;
+watcher_canvas.width = 480;
 canvas.height = 580;  
 food_canvas.height = 580;
 hud_canvas.height = 580;
+watcher_canvas.height = 580;
 
 
 /**

@@ -19,6 +19,7 @@ var keep_painting_item = true;
 var spin_degrees = 0;
 
 var hud_object = new Hud();
+var audio_handler = new AudioHandler();
 var watcher = new Watcher();
 
 var left_movement_width = 0;
@@ -42,7 +43,7 @@ function run(){
     // Blink, my pretties! Blink!
     blink_controller();
     // Add listener to audio for looping
-    audio.addEventListener("ended", loop, false);
+    audio_handler.audio.addEventListener("ended", audio_handler.loop, false);
     // Start turning the watcher
     time_watcher_turn();
 }
@@ -69,10 +70,39 @@ function animate(time){
 };
 
 function game_step(){
+    check_player_life();
+    item_movement();
+    handle_bounced_items();
+    watcher.decide_watcher_state();
+    audio_handler.check_music();
+    setTimeout(game_step, interval);
+}
+
+function check_player_life(){
     if(hud_object.lives <=0 ){
         hud_object.game_over_screen();
     }
+}
 
+function handle_bounced_items(){
+    if(bounced_items.length > 0){
+        for(var i=0; i < bounced_items.length; i++){
+            if(bounced_items[i].pushed_by == 1){
+                bounced_items[i].x-=bounced_items[i].bounce_x;
+                bounced_items[i].y-=bounced_items[i].bounce_y;
+            } else {
+                bounced_items[i].x+=bounced_items[i].bounce_x;
+                bounced_items[i].y-=bounced_items[i].bounce_y;
+            }
+            if(bounced_items[i].x < 0 - 50 || bounced_items[i].x > canvas.width 
+                || bounced_items[i].y < 0 - 50 || bounced_items[i].y > canvas.height){
+                bounced_items.shift();
+        }
+    }
+}
+}
+
+function item_movement(){
     if(pull_item && !move_right_paw && !move_left_paw){
         for (var i=0;  i < game_items.length; i++) {
             if(!game_items[i].to_be_knocked){
@@ -91,39 +121,19 @@ function game_step(){
     } else if(knock_item){
         for (var i=0;  i < game_items.length; i++) {
             if(game_items[i].y > (canvas.height / 6) * 3){
-             game_items[i].to_be_knocked = true;
-             if(move_left_paw){
+               game_items[i].to_be_knocked = true;
+               if(move_left_paw){
                 game_items[i].pushed_by = 1;
             } else {
                 game_items[i].pushed_by = 3;
             }
             bounced_items.push(game_items[i]);
             game_items.shift();
+            audio_handler.sfx_kick.play();
         }
     }
     knock_item = false;
 }
-
-if(bounced_items.length > 0){
-    for(var i=0; i < bounced_items.length; i++){
-        if(bounced_items[i].pushed_by == 1){
-            bounced_items[i].x-=bounced_items[i].bounce_x;
-            bounced_items[i].y-=bounced_items[i].bounce_y;
-        } else {
-            bounced_items[i].x+=bounced_items[i].bounce_x;
-            bounced_items[i].y-=bounced_items[i].bounce_y;
-        }
-        if(bounced_items[i].x < 0 - 50 || bounced_items[i].x > canvas.width 
-            || bounced_items[i].y < 0 - 50 || bounced_items[i].y > canvas.height){
-            bounced_items.shift();
-    }
-}
-}
-
-watcher.decide_watcher_state();
-
-check_music();
-setTimeout(game_step, interval);
 }
 
 function handle_left_paw_movement(){
@@ -217,9 +227,7 @@ function reset_right_paw(){
     // Check that no paw is currently already moving.
     if(!move_left_paw && !left_paw_moving && !move_right_paw && !right_paw_moving){
 
-        if(watcher.watcher_staring){
-            hud_object.lives--;
-        }
+        player_caught();
 
         move_left_paw = true;
 
@@ -240,10 +248,7 @@ function reset_right_paw(){
  function right_paw_click() {
     // Check that no paw is currently already moving.
     if(!move_right_paw && !right_paw_moving && !move_left_paw && !left_paw_moving){
-
-        if(watcher.watcher_staring){
-            hud_object.lives--;
-        }
+        player_caught();
 
         move_right_paw = true;
         if(!right_paw_extended){
@@ -257,6 +262,13 @@ function reset_right_paw(){
 
 }
 
+
+function player_caught(){
+    if(watcher.watcher_staring){
+        hud_object.lives--;
+        watcher.watcher_frame = 0;
+    }
+}
 
 
 function paint_left_paw_grab(){

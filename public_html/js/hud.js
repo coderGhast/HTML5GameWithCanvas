@@ -40,6 +40,7 @@ Hud.prototype.clear_hud_canvas = function(){
 }
 
 Hud.prototype.add_score = function(passed_score){
+    audio_handler.play_effect(1);
     this.score+=passed_score;
     this.paint_most_recent_eaten();
 }
@@ -65,5 +66,5 @@ Hud.prototype.paint_most_recent_eaten = function(){
 }
 
 Hud.prototype.game_over_screen = function(){
-    
+
 }

@@ -79,8 +79,8 @@ function Watcher(){
 }
 
 Watcher.prototype.paint_watcher = function(){
-    context.clearRect(canvas.width - (this.image.width / 7), 0, canvas.width + (this.image.width / 7), this.image.height);
-    context.drawImage(this.image, 140 * this.watcher_frame, 0, 140, 190, canvas.width - (this.image.width / 7), 0, 140, 190);
+    watcher_context.clearRect(canvas.width - (this.image.width / 7), 0, canvas.width + (this.image.width / 7), this.image.height);
+    watcher_context.drawImage(this.image, 140 * this.watcher_frame, 0, 140, 190, canvas.width - (this.image.width / 7), 0, 140, 190);
 }
 
 
