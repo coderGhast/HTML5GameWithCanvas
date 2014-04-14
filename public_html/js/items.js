@@ -43,13 +43,13 @@ Item.prototype.set_image = function(){
 }
 
 Item.prototype.update_blink = function(){
-     this.blink_num = Math.floor(Math.random()*(10-0+1)+0);
+   this.blink_num = Math.floor(Math.random()*(10-0+1)+0);
 
-     if(this.blink_num >= 9){
-        this.item_frame = 1;
-     } else {
-        this.item_frame = 0;
-     }
+   if(this.blink_num >= 9){
+    this.item_frame = 1;
+} else {
+    this.item_frame = 0;
+}
 }
 
 Item.prototype.paint_item = function(){
@@ -64,4 +64,51 @@ Item.prototype.paint_knock_item = function(){
     food_context.translate(-(this.image.width / 4), -(this.image.height / 2));
     food_context.drawImage(this.image, 100 * this.item_frame, 0, 100, 80, 0, 0, 100, 80);
     food_context.restore();
+}
+
+//============= All info about the WATCHER
+
+function Watcher(){
+    this.watcher_position = 0;
+    this.watcher_frame = 6;
+    this.turn_watcher = false;
+    this.watcher_looking = false;
+    this.watcher_staring = false;
+    this.image = new Image();
+    this.image.src = "img/watcher_sprite.png";
+}
+
+Watcher.prototype.paint_watcher = function(){
+    context.clearRect(canvas.width - (this.image.width / 7), 0, canvas.width + (this.image.width / 7), this.image.height);
+    context.drawImage(this.image, 140 * this.watcher_frame, 0, 140, 190, canvas.width - (this.image.width / 7), 0, 140, 190);
+}
+
+
+function time_watcher_turn(){
+    if(watcher.turn_watcher){
+        if(watcher.watcher_looking){
+            watcher.watcher_staring = false;
+            watcher.watcher_frame++;
+            if(watcher.watcher_frame == 6){
+                watcher.turn_watcher = false;
+                watcher.watcher_looking = false;
+            }
+        } else {
+            watcher.watcher_frame--;
+            if (watcher.watcher_frame == 1){
+                watcher.turn_watcher = false;
+                watcher.watcher_looking = true;
+                watcher.watcher_staring = true;
+            }
+        }
+    }
+    setTimeout(time_watcher_turn, interval * 5);
+}
+
+Watcher.prototype.decide_watcher_state = function(){
+    if(this.turn_watcher == false){
+        if((Math.floor(Math.random()*(10000-0+1)+0)) >= 9950){
+            this.turn_watcher = true;
+        }        
+    }
 }

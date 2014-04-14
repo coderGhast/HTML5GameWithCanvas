@@ -1,5 +1,6 @@
 function Hud(){
     this.score = 0;
+    this.lives = 3;
     this.item_box_x = ((hud_canvas.width / 6) * 4) - 5;
     this.item_box_width = 100;
     this.item_box_y = ((hud_canvas.height / 10) * 9) + 5;
@@ -15,6 +16,7 @@ Hud.prototype.print_hud_overlay = function(){
         this.paint_most_recent_eaten();
     }
     this.print_total_score();
+    this.print_lives();
 }
 
 Hud.prototype.paint_bottom_bar = function(){
@@ -48,10 +50,20 @@ Hud.prototype.print_total_score = function(){
     hud_context.fillText("Score: " + this.score, 15,40);
 }
 
+Hud.prototype.print_lives = function(){
+    hud_context.font="20px Georgia";
+    hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
+    hud_context.fillText("Lives: " + this.lives, 20, hud_canvas.height - 30);
+}
+
 Hud.prototype.paint_most_recent_eaten = function(){
     hud_context.drawImage(this.most_recent_eaten.image, 100 * this.most_recent_eaten.item_frame, 0, 100, 80, 
         this.item_box_x + 5, this.item_box_y + 5, 50, 40);
     hud_context.font="20px Georgia";
     hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
     hud_context.fillText("+" + this.most_recent_eaten.score_value, this.item_box_x + (this.item_box_width / 2) + 10, this.item_box_y + (this.item_box_height / 2));
+}
+
+Hud.prototype.game_over_screen = function(){
+    
 }

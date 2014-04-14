@@ -1,4 +1,3 @@
-// TEMPORARY : Just to display the animation on the canvas.
 var item_names = new Array("sushi", "chicken", "ramen", "beef", "pancakes");
 
 function add_new_item(){
