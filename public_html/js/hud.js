@@ -25,6 +25,25 @@ function Hud(){
     this.cat_display = new CatDisplay();
 }
 
+//====== Start Menu HUD =======
+
+Hud.prototype.paint_start_screen = function(){
+    this.clear_hud_canvas();
+    this.paint_splash_image();
+    this.paint_menu_items();
+}
+
+Hud.prototype.paint_splash_image = function(){
+    hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
+}
+
+Hud.prototype.paint_menu_items = function(){
+    
+}
+
+
+//====== During Game HUD =======
+
 Hud.prototype.print_hud_overlay = function(){
     this.clear_hud_canvas();
     this.paint_bottom_bar();
@@ -41,19 +60,12 @@ Hud.prototype.paint_bottom_bar = function(){
     hud_context.drawImage(this.bottom_bar_image, 0, hud_canvas.height - this.bottom_bar_image.height);
 }
 
-Hud.prototype.paint_item_box = function(){
-    hud_context.fillStyle = "rgba(255, 255, 255, 1.0)";
-    hud_context.fillRect(this.item_box_x, this.item_box_y, this.item_box_width, this.item_box_height);
-    hud_context.rect(this.item_box_x, this.item_box_y, this.item_box_width, this.item_box_height);
-    hud_context.stroke();
-}
-
 Hud.prototype.clear_hud_canvas = function(){
     hud_context.clearRect(0, 0, hud_canvas.width, hud_canvas.height);
 }
 
 Hud.prototype.add_score = function(passed_score){
-    audio_handler.play_effect(1);
+    game_content.audio_handler.play_effect(1);
     this.score+=passed_score;
     this.paint_most_recent_eaten();
 }
@@ -110,7 +122,7 @@ CatDisplay.prototype.change_face = function(){
 
 function doom_faces(){
     if(Math.floor(Math.random()*(10-0+1)+0) >= 8){
-        hud_object.cat_display.change_face();
+        game_content.hud_object.cat_display.change_face();
     }
 
     setTimeout(doom_faces, interval * 30)
@@ -128,7 +140,7 @@ Hud.prototype.paint_audio_button = function(){
 }
 
 Hud.prototype.toggle_audio_button = function(){
-    if(audio_handler.music_play){
+    if(game_content.audio_handler.music_play){
         this.audio_button = this.mute_audio_button;
     } else {
         this.audio_button = this.unmute_audio_button;

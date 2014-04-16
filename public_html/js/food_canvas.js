@@ -11,9 +11,9 @@ function clear_food_canvas() {
 }
 
 function spin_controller(){
-    spin_degrees = spin_degrees + 4;
-    if(spin_degrees > 360){
-        spin_degrees = 0;
+    game_content.spin_degrees = game_content.spin_degrees + 4;
+    if(game_content.spin_degrees > 360){
+        game_content.spin_degrees = 0;
     }
 }
 
