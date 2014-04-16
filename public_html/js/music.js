@@ -1,6 +1,8 @@
 function AudioHandler(){
     this.audio = new Audio("music/scheming_weasel_faster.mp3");
+    this.set_audio_loop();
     this.audio.load();
+
     this.music_play = true;
 
     this.sfx_pickup_good_1 = this.make_sound_bank("music/sfx/pickup_good_1.mp3");
@@ -9,6 +11,20 @@ function AudioHandler(){
     this.sfx_caught = this.make_sound_bank("music/sfx/caught.mp3");
 }
 
+
+AudioHandler.prototype.set_audio_loop = function(){
+    if (typeof this.audio.loop == 'boolean')
+    {
+        this.audio.loop = true;
+    }
+    else
+    {
+        this.audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+    }
+}
 
 AudioHandler.prototype.make_sound_bank = function(sound_location){
     var sound_bank = {};
@@ -21,8 +37,14 @@ AudioHandler.prototype.make_sound_bank = function(sound_location){
     return sound_bank;
 }
 
+// If the user has clicked to turn the audio off, go do it!
+AudioHandler.prototype.toggle_audio = function(){
+    this.stop_music();
+    game_content.hud_object.toggle_audio_button();
+}
+
 AudioHandler.prototype.loop = function() {
-    this.audio.play();
+
 }
 
 AudioHandler.prototype.stop_music = function(){

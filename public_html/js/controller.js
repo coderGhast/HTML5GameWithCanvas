@@ -1,5 +1,5 @@
 function Controller(){
-    this.game_running = true;
+    this.game_running = false;
     this.level = 1;
 }
 
@@ -8,8 +8,7 @@ function prepare_game(){
     requestAnimationFrame(animate);
     // Start the game logic loop
     game_step();
-    // Add listener to audio for looping
-    game_content.audio_handler.audio.addEventListener("ended", game_content.audio_handler.loop, false);
+    game_content.run();
 }
 
 Controller.prototype.start_game = function(){

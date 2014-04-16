@@ -69,11 +69,16 @@ $('body').on('contextmenu', '#hud_canvas', function(e){ return false; });
 
 /* JQuery script to detect mouse clicks! */
 $('#hud_canvas').mousedown(function(event) {
-
-    if(controller.game_running){
-        game_mouse(event);
+    // Check that the user isn't just clicking to turn the audio off, and not for a paw click.
+    if(event.clientY - hud_canvas.getBoundingClientRect().top > hud_canvas.height - 25 
+        && event.clientX - hud_canvas.getBoundingClientRect().left > hud_canvas.width - 25){
+        audio_handler.toggle_audio();
     } else {
-        alert("!!");
+        if(controller.game_running){
+            game_mouse(event);
+        } else {
+            alert("!!");
+        }
     }
 
 });
@@ -81,21 +86,9 @@ $('#hud_canvas').mousedown(function(event) {
 function game_mouse(event){
     // Left Click == 1
     if(event.which == 1){
-        // Check that the user isn't just clicking to turn the audio off, and not for a paw click.
-        if(event.clientY - hud_canvas.getBoundingClientRect().top > hud_canvas.height - 25 
-            && event.clientX - hud_canvas.getBoundingClientRect().left > hud_canvas.width - 25){
-            toggle_audio();
-        } else {
-            game_content.paws.left_paw_click();
-        }
+        game_content.paws.left_paw_click();
         // Right Click == 3
     } else if(event.which == 3){
         game_content.paws.right_paw_click();
     }
-}
-
-// If the user has clicked to turn the audio off, go do it!
-function toggle_audio(){
-	game_content.audio_handler.stop_music();
-	game_content.hud_object.toggle_audio_button();
 }

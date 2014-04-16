@@ -8,15 +8,12 @@ function GameContent(){
     this.spin_degrees = 0;
 
     this.hud_object = new Hud();
-    this.audio_handler = new AudioHandler();
     this.watcher = new Watcher();
 }
 
 GameContent.prototype.run = function(){
     // Start the game loop.
     this.paws.loadImages();
-    // Start the autio
-    //audio.play();
     // Add the first item to the array of game_items.
     add_new_item();
     // Blink, my pretties! Blink!
@@ -53,7 +50,6 @@ GameContent.prototype.paint_game_screen = function(){
                 game_content.paws.handle_right_paw_movement();
             }
 
-
             game_content.watcher.paint_watcher();
 
             spin_controller();
@@ -73,7 +69,7 @@ function game_step(){
         game_content.handle_bounced_items();
         game_content.watcher.decide_watcher_state();
     }
-    game_content.audio_handler.check_music(); 
+    audio_handler.check_music(); 
     setTimeout(game_step, interval);
 }
 
@@ -130,7 +126,7 @@ GameContent.prototype.item_movement = function(){
             bounced_items.push(game_items[i]);
             game_items.shift();
             this.hud_object.cat_display.cat_image_emote = 0;
-            this.audio_handler.play_effect(2);
+            audio_handler.play_effect(2);
         }
     }
     this.knock_item = false;
@@ -143,7 +139,7 @@ GameContent.prototype.check_player_caught = function(){
     var uncaught = true;
     if(this.watcher.watcher_staring){
         this.hud_object.lives--;
-        this.audio_handler.play_effect(3);
+        audio_handler.play_effect(3);
         this.watcher.watcher_frame = 0;
         this.hud_object.cat_display.cat_image_emote = 1;
         uncaught = false;

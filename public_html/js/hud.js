@@ -5,6 +5,9 @@ function Hud(){
     this.bottom_bar_image = new Image();
     this.bottom_bar_image.src = "img/controls_and_display/bottom_bar.png";
 
+    this.start_screen_image = new Image();
+    this.start_screen_image.src = "img/controls_and_display/menu_background.png";
+
     this.item_box_x = ((hud_canvas.width / 6) * 4) - 5;
     this.item_box_width = 100;
     this.item_box_y = ((hud_canvas.height / 10) * 9) + 5;
@@ -31,10 +34,11 @@ Hud.prototype.paint_start_screen = function(){
     this.clear_hud_canvas();
     this.paint_splash_image();
     this.paint_menu_items();
+    this.paint_audio_button();
 }
 
 Hud.prototype.paint_splash_image = function(){
-    hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
+    hud_context.drawImage(this.start_screen_image, 0, 0);
 }
 
 Hud.prototype.paint_menu_items = function(){
@@ -65,7 +69,7 @@ Hud.prototype.clear_hud_canvas = function(){
 }
 
 Hud.prototype.add_score = function(passed_score){
-    game_content.audio_handler.play_effect(1);
+    audio_handler.play_effect(1);
     this.score+=passed_score;
     this.paint_most_recent_eaten();
 }
@@ -140,7 +144,7 @@ Hud.prototype.paint_audio_button = function(){
 }
 
 Hud.prototype.toggle_audio_button = function(){
-    if(game_content.audio_handler.music_play){
+    if(audio_handler.music_play){
         this.audio_button = this.mute_audio_button;
     } else {
         this.audio_button = this.unmute_audio_button;
