@@ -1,6 +1,6 @@
 /** Handles operations with a 'food', treating them as Objects **/
-function Item(type){
-    this.item_type = type;
+function Item(passed_type){
+    this.item_type = passed_type;
     this.image = new Image();
 
     this.set_image();
@@ -39,17 +39,19 @@ Item.prototype.set_image = function(){
     } else if(this.item_type.localeCompare("pancakes") == 0){
         this.image.src = "img/foodstuffs/pancakes_sprite.png";
         this.score_value = 4;
+    } else if(this.item_type.localeCompare("empty") == 0){
+        this.image.src = "img/foodstuffs/sushi_sprite.png";
     }
 }
 
 Item.prototype.update_blink = function(){
-   this.blink_num = Math.floor(Math.random()*(10-0+1)+0);
+    this.blink_num = Math.floor(Math.random()*(10-0+1)+0);
 
-   if(this.blink_num >= 9){
-    this.item_frame = 1;
-} else {
-    this.item_frame = 0;
-}
+    if(this.blink_num >= 9){
+        this.item_frame = 1;
+    } else {
+        this.item_frame = 0;
+    }
 }
 
 Item.prototype.paint_item = function(){

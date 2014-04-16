@@ -69,38 +69,23 @@ $('body').on('contextmenu', '#hud_canvas', function(e){ return false; });
 
 /* JQuery script to detect mouse clicks! */
 $('#hud_canvas').mousedown(function(event) {
+	// Left Click == 1
     if(event.which == 1){
-        left_paw_click();
+    	// Check that the user isn't just clicking to turn the audio off, and not for a paw click.
+    	if(event.clientY - hud_canvas.getBoundingClientRect().top > hud_canvas.height - 25 
+    		&& event.clientX - hud_canvas.getBoundingClientRect().left > hud_canvas.width - 25){
+    		toggle_audio();
+    	} else {
+        	left_paw_click();
+    	}
+    	// Right Click == 3
     } else if(event.which == 3){
         right_paw_click();
     }
 });
 
-/**
-	Support for getting the position of the mouse upon an element
-	passed as a parameter. Not all browsers support 'mousePos'
-	with the mouse listener.
-*/	
-utilities.captureMouse = function (element) {
-	var mouse = {x: 0, y:0};
-	
-	element.addEventListener('mousemove', function (event) {
-		var x, y;
-		if (event.pageX || event.pageY) {
-			x = event.pageX;
-			y = event.pageY;
-		} else {
-			x = event.clientX + document.body.scrollLeft +
-				document.documentElement.scrollLeft;
-			y = event.clientY + document.body.scrollTop +
-				document.documentElement.scrollTop;
-			}
-			x -= element.offsetLeft;
-			y -= element.offsetTop;
-			
-			mouse.x = x;
-			mouse.y = y;
-			}, false);
-			
-			return mouse;
-		};
+// If the user has clicked to turn the audio off, go do it!
+function toggle_audio(){
+	audio_handler.stop_music();
+	hud_object.toggle_audio_button();
+}

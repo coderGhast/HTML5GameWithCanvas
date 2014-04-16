@@ -1,18 +1,25 @@
 function AudioHandler(){
-    this.audio = new Audio("music/DST-XToFly.mp3");
+    this.audio = new Audio("music/scheming_weasel_faster.mp3");
     this.audio.load();
-    this.music_play = false;
+    this.music_play = true;
 
-    this.sfx_pickup_good_1 = new Audio("music/sfx/pickup_good.wav");
-    this.sfx_pickup_good_2 = new Audio("music/sfx/pickup_good.wav");
-    this.sfx_pickup_good_1.load();
-    this.sfx_pickup_good_2.load();
-
-    this.sfx_kick = new Audio("music/sfx/kick_away.wav");
-    this.sfx_kick.load();
+    this.sfx_pickup_good_1 = this.make_sound_bank("music/sfx/pickup_good_1.mp3");
+    this.sfx_pickup_good_2 = this.make_sound_bank("music/sfx/pickup_good_2.mp3");
+    this.sfx_kick_away = this.make_sound_bank("music/sfx/kick_away.mp3");
+    this.sfx_caught = this.make_sound_bank("music/sfx/caught.mp3");
 }
-//var audio = document.getElementById("game_background_audio");
-//var music_play = false;
+
+
+AudioHandler.prototype.make_sound_bank = function(sound_location){
+    var sound_bank = {};
+    for(var i=0; i<3; i++){
+        var sfx = new Audio(sound_location);
+        sfx.volume = .11;
+        sfx.load();
+        sound_bank[i] = sfx;
+    }
+    return sound_bank;
+}
 
 AudioHandler.prototype.loop = function() {
     this.audio.play();
@@ -35,13 +42,27 @@ AudioHandler.prototype.check_music = function(){
 }
 
 AudioHandler.prototype.play_effect = function(effect_type){
-    if(effect_type == 1){
-        if(this.sfx_pickup_good_1.duration > 0 && !this.sfx_pickup_good_1.paused){
-            this.sfx_pickup_good_2.play();
-        } else {
-            this.sfx_pickup_good_1.play();
+    if(this.music_play){
+        if(effect_type == 1){
+            if(Math.floor(Math.random()*(2-1+1)+1) == 1) {
+                this.choose_effect(this.sfx_pickup_good_1);
+            } else {
+                this.choose_effect(this.sfx_pickup_good_2);
+            }
+        } else if(effect_type == 2){
+            this.choose_effect(this.sfx_kick_away);
+        } else if(effect_type == 3){
+            this.choose_effect(this.sfx_caught);
         }
-    } else if(effect_type == 2){
-        this.sfx_kick.play();
     }
+}
+
+AudioHandler.prototype.choose_effect = function(sound_bank){
+    if(sound_bank[0].duration > 0 && !sound_bank[0].paused){
+            sound_bank[2].play();
+        } else if(sound_bank[1].duration > 0 && !sound_bank[1].paused){
+            sound_bank[1].play();
+        } else {
+            sound_bank[0].play();
+        }
 }

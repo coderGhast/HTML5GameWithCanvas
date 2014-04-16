@@ -1,7 +1,7 @@
 var left_paw_image = new Image();
-left_paw_image.src = "img/left_paw.png";
+left_paw_image.src = "img/catzeau/left_paw.png";
 var right_paw_image = new Image();
-right_paw_image.src = "img/right_paw.png";
+right_paw_image.src = "img/catzeau/right_paw.png";
 
 //===========
 var move_left_paw = false;
@@ -42,6 +42,7 @@ function run(){
     game_step();
     // Blink, my pretties! Blink!
     blink_controller();
+    doom_faces();
     // Add listener to audio for looping
     audio_handler.audio.addEventListener("ended", audio_handler.loop, false);
     // Start turning the watcher
@@ -108,7 +109,8 @@ function item_movement(){
             if(!game_items[i].to_be_knocked){
                 if(game_items[i].y > (canvas.height / 6) * 3){
                     hud_object.add_score(game_items[i].score_value);
-                    hud_object.most_recent_eaten = game_items[i];
+                    hud_object.copy_item(game_items[0]);
+                    hud_object.cat_display.cat_image_emote = 2;
                     game_items.shift();
                 }
                 if(game_items[i].y < (canvas.height / 6 ) * 4){
@@ -129,7 +131,8 @@ function item_movement(){
             }
             bounced_items.push(game_items[i]);
             game_items.shift();
-            audio_handler.sfx_kick.play();
+            hud_object.cat_display.cat_image_emote = 0;
+            audio_handler.play_effect(2);
         }
     }
     knock_item = false;
@@ -227,15 +230,15 @@ function reset_right_paw(){
     // Check that no paw is currently already moving.
     if(!move_left_paw && !left_paw_moving && !move_right_paw && !right_paw_moving){
 
-        player_caught();
+        if(check_player_caught()){
+            move_left_paw = true;
 
-        move_left_paw = true;
-
-        if(!left_paw_extended){
-            pull_item = true;
-        } else {
-            pull_item = false;
-            knock_item = true;
+            if(!left_paw_extended){
+                pull_item = true;
+            } else {
+                pull_item = false;
+                knock_item = true;
+            }
         }
     }
 
@@ -248,14 +251,14 @@ function reset_right_paw(){
  function right_paw_click() {
     // Check that no paw is currently already moving.
     if(!move_right_paw && !right_paw_moving && !move_left_paw && !left_paw_moving){
-        player_caught();
-
-        move_right_paw = true;
-        if(!right_paw_extended){
-            pull_item = true;
-        } else {
-            pull_item = false;
-            knock_item = true;
+        if(check_player_caught()){
+            move_right_paw = true;
+            if(!right_paw_extended){
+                pull_item = true;
+            } else {
+                pull_item = false;
+                knock_item = true;
+            }
         }
     }
 
@@ -263,11 +266,16 @@ function reset_right_paw(){
 }
 
 
-function player_caught(){
+function check_player_caught(){
+    var uncaught = true;
     if(watcher.watcher_staring){
         hud_object.lives--;
+        audio_handler.play_effect(3);
         watcher.watcher_frame = 0;
+        hud_object.cat_display.cat_image_emote = 1;
+        uncaught = false;
     }
+    return uncaught;
 }
 
 
