@@ -4,10 +4,17 @@ function Controller(){
     this.level = 1;
     this.lives = 5;
     this.score = 0;
+    this.current_highscore = 0;
+    this.highscore = 0;
+    this.new_highscore = false;
     this.game_over = false;
 }
 
 function prepare_game(){
+    controller.highscore = parseInt(localStorage.getItem('catzeau_highscore'))
+    if(isNaN(controller.highscore)){
+        localStorage.setItem('catzeau_highscore', 0);
+    }
      // Start animation
     requestAnimationFrame(animate);
     // Start the game logic loop
@@ -27,6 +34,16 @@ Controller.prototype.start_game = function(){
 
 Controller.prototype.end_game = function(){
     this.game_over = true;
+    if(this.current_highscore < this.score){
+        this.current_highscore = this.score;
+    }
+    if(this.highscore < this.score){
+        this.new_highscore = true;
+        this.highscore = this.score;
+        window.localStorage.setItem('catzeau_highscore', this.score.toString());
+    } else {
+        this.new_highscore = false;
+    }
     game_content.stop();
 }
 

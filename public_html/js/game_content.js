@@ -24,6 +24,7 @@ GameContent.prototype.stop = function(){
     bounced_items.length = 0;
     this.watcher.reset_watcher();
     hud_object.most_recent_eaten = new Item("empty");
+    hud_object.cat_display.reset_cat_doom();
     this.paws.reset_left_paw();
     this.paws.reset_right_paw();
 }

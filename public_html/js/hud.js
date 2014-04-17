@@ -69,20 +69,26 @@ Hud.prototype.paint_start_screen = function(){
 Hud.prototype.paint_generic_menu = function(){
     hud_context.fillStyle = "#bccae3";
     hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
+    hud_context.fillStyle = "#f5f5f5";
+    hud_context.fillRect(40, 40, hud_canvas.width - 80, hud_canvas.height - 80);
     this.paint_audio_button();
-    this.paint_back_button();
 }
 
 Hud.prototype.paint_highscores_screen = function(){
     this.paint_generic_menu();
+    this.paint_back_button();
+    this.print_current_run_highscore();
+    this.print_highscore();
 }
 
 Hud.prototype.paint_help_screen = function(){
     this.paint_generic_menu();
+    this.paint_back_button();
 }
 
 Hud.prototype.paint_credits_screen = function(){
     this.paint_generic_menu();
+    this.paint_back_button();
 }
 
 Hud.prototype.paint_splash_image = function(){
@@ -172,10 +178,29 @@ Hud.prototype.add_score = function(passed_score){
 }
 
 Hud.prototype.print_total_score = function(){
-    hud_context.font="20px Georgia";
+    hud_context.font="20px Helvetica, Arial";
     hud_context.fillStyle = "rgba(136, 191, 235, 1.0)";
     hud_context.textAlign = "center";
     hud_context.fillText("Score: " + controller.score, (hud_canvas.width / 2), 20);
+}
+
+Hud.prototype.print_highscore = function(){
+    hud_context.font="23px Helvetica, Arial";
+    hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
+    hud_context.textAlign = "center";
+    if(controller.new_highscore && controller.game_over){
+        hud_context.fillText("NEW HIGH SCORE!!", (hud_canvas.width/2), (hud_canvas.height / 2) + 25);
+    }
+    hud_context.fillText("High Score: " + controller.highscore, (hud_canvas.width / 2), (hud_canvas.height / 2) + 50);
+}
+
+Hud.prototype.print_current_run_highscore = function(){
+    hud_context.font="27px Helvetica, Arial";
+    hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
+    hud_context.textAlign = "center";
+    hud_context.fillText("HIGHSCORES!!", (hud_canvas.width / 2), (hud_canvas.height / 2)- 140);
+    hud_context.font="23px Helvetica, Arial";
+    hud_context.fillText("Current Run High Score: " + controller.current_highscore, (hud_canvas.width / 2), (hud_canvas.height / 2));
 }
 
 Hud.prototype.print_lives = function(){
@@ -197,7 +222,7 @@ Hud.prototype.paint_most_recent_eaten = function(){
     } catch (error){
 
     }
-    hud_context.font="20px Georgia";
+    hud_context.font="20px Helvetica, Arial";
     hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
     hud_context.textAlign = "start";
     hud_context.fillText("+" + this.most_recent_eaten.score_value, this.item_box_x + (this.item_box_width / 2) + 10, this.item_box_y + (this.item_box_height / 2));
@@ -205,22 +230,40 @@ Hud.prototype.paint_most_recent_eaten = function(){
 
 // ======== Game Over ========
 Hud.prototype.game_over_screen = function(){
-    hud_context.fillStyle = "rgba(225, 225, 225, 1.0)";
-    hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
+    this.paint_generic_menu();
     this.paint_final_score();
+    this.print_highscore();
+    this.print_game_over_text();
     this.paint_audio_button();
 }
 
 Hud.prototype.paint_final_score = function(){
+    hud_context.font="20px Helvetica, Arial";
     hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
     hud_context.textAlign = "center";
     hud_context.fillText("FINAL SCORE: " + controller.score, hud_canvas.width / 2, hud_canvas.height / 2);
+}
+
+Hud.prototype.print_game_over_text = function(){
+    hud_context.font="26px Helvetica, Arial";
+    hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
+    hud_context.textAlign = "center";
+    hud_context.fillText("YOU GOT CAUGHT TOO MUCH!", hud_canvas.width / 2, 70);
+    hud_context.fillText("GAME OVER", hud_canvas.width / 2, 140);
+
+    hud_context.font="18px Helvetica, Arial";
+    hud_context.fillText("Click anywhere to try again", hud_canvas.width / 2, hud_canvas.height - 150);
 }
 
 // ============ CATDISPLAY: To do with the cat on the Hud display
 function CatDisplay(){
     this.cat_image = new Image();
     this.cat_image.src = "img/catzeau/catzeau_sprites.png"
+    this.cat_image_frame = 0;
+    this.cat_image_emote = 0;
+}
+
+CatDisplay.prototype.reset_cat_doom = function(){
     this.cat_image_frame = 0;
     this.cat_image_emote = 0;
 }
