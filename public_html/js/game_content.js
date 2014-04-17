@@ -90,6 +90,13 @@ GameContent.prototype.add_score = function(passed_score){
     hud_object.paint_most_recent_eaten();
     if(passed_score >= 0){
         this.item_count++;
+    } else {
+        
+        this.item_count = 0;
+        if(controller.multiplier > 1){
+            controller.multiplier = 1;
+            hud_object.multiplier_down = true;
+        }
     }
     if(this.item_count >= 15){
         this.item_count = 0;

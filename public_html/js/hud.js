@@ -30,6 +30,9 @@ function Hud(){
     this.back_button = new Image();
     this.back_button.src = "img/controls_and_display/back_button.png";
 
+    this.help_menu_image = new Image();
+    this.help_menu_image.src = "img/controls_and_display/help_menu.png";
+
     this.item_box_x = ((hud_canvas.width / 6) * 4) - 5;
     this.item_box_width = 100;
     this.item_box_y = ((hud_canvas.height / 10) * 9) + 5;
@@ -96,6 +99,7 @@ Hud.prototype.paint_highscores_screen = function(){
 
 Hud.prototype.paint_help_screen = function(){
     this.paint_generic_menu();
+    hud_context.drawImage(this.help_menu_image, 0, 0);
     this.paint_back_button();
 }
 
@@ -211,6 +215,7 @@ Hud.prototype.print_hud_overlay = function(){
 }
 
 Hud.prototype.paint_multiplier_message = function(){
+    game_content.watcher.update_random_turn_time();
     hud_context.font="27px Helvetica, Arial";
     hud_context.fillStyle = "rgba(255, 255, 255, 1.0)";
     hud_context.textAlign = "center";
@@ -243,9 +248,9 @@ Hud.prototype.print_highscore = function(){
     hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
     hud_context.textAlign = "center";
     if(controller.new_highscore && controller.game_over){
-        hud_context.fillText("NEW HIGH SCORE!!", (hud_canvas.width/2), (hud_canvas.height / 2) + 25);
+        hud_context.fillText("NEW HIGH SCORE!!", (hud_canvas.width/2), (hud_canvas.height / 2) -25);
     }
-    hud_context.fillText("Best High Score: " + controller.highscore, (hud_canvas.width / 2), (hud_canvas.height / 2) + 50);
+    hud_context.fillText("Best High Score: " + controller.highscore, (hud_canvas.width / 2), (hud_canvas.height / 2));
 }
 
 Hud.prototype.print_current_run_highscore = function(){
@@ -254,7 +259,7 @@ Hud.prototype.print_current_run_highscore = function(){
     hud_context.textAlign = "center";
     hud_context.fillText("HIGHSCORES!!", (hud_canvas.width / 2), (hud_canvas.height / 2)- 140);
     hud_context.font="23px Helvetica, Arial";
-    hud_context.fillText("Current Run High Score: " + controller.current_highscore, (hud_canvas.width / 2), (hud_canvas.height / 2));
+    hud_context.fillText("Current Run High Score: " + controller.current_highscore, (hud_canvas.width / 2), (hud_canvas.height / 2) - 50);
 }
 
 Hud.prototype.print_lives = function(){
@@ -300,7 +305,7 @@ Hud.prototype.paint_final_score = function(){
     hud_context.font="20px Helvetica, Arial";
     hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
     hud_context.textAlign = "center";
-    hud_context.fillText("FINAL SCORE: " + controller.score, hud_canvas.width / 2, hud_canvas.height / 2);
+    hud_context.fillText("FINAL SCORE: " + controller.score, hud_canvas.width / 2, hud_canvas.height / 2 - 70);
 }
 
 Hud.prototype.print_game_over_text = function(){

@@ -6,6 +6,9 @@ function Watcher(){
     this.turn_watcher = false;
     this.watcher_looking = false;
     this.watcher_staring = false;
+    this.looking_count = 0;
+    this.waiting_count = 0;
+    this.random_turn_time = (Math.floor(Math.random()*((400 / (1 / 10))-100+1)+100));
     this.image = new Image();
     this.image.src = "img/watcher_sprite.png";
     this.top_bar = new Image();
@@ -48,10 +51,25 @@ function time_watcher_turn(){
     setTimeout(time_watcher_turn, interval * 5);
 }
 
+Watcher.prototype.update_random_turn_time = function(){
+    this.random_turn_time = (Math.floor(Math.random()*((400 / (controller.multiplier / 10))-100+1)+100));
+}
+
 Watcher.prototype.decide_watcher_state = function(){
     if(this.turn_watcher == false){
-        if((Math.floor(Math.random()*(10000-0+1)+0)) >= 9950){
-            this.turn_watcher = true;
-        }        
+        if(this.looking_count == 0 && !this.watcher_staring){
+            this.waiting_count++;
+            if(this.waiting_count >= this.random_turn_time){
+                this.turn_watcher = true;
+                this.waiting_count = 0;
+                this.update_random_turn_time();
+            }
+        } else {
+            this.looking_count++;
+            if(this.looking_count >= 200){
+                this.turn_watcher = true;
+                this.looking_count = 0;
+            }
+        }   
     }
 }

@@ -136,3 +136,27 @@ function game_mouse(event){
         game_content.paws.right_paw_click();
     }
 }
+
+// Keyboard events
+
+$(document.body).on('keydown', function(e) {
+    if(!controller.game_over && controller.game_running){
+        switch (e.which) {
+            // key code for left arrow
+            case 37:
+                game_content.paws.left_paw_click();
+                break;
+            //key code for 'a'
+            case 65:
+                game_content.paws.left_paw_click();
+                break;
+            // key code for right arrow
+            case 39:
+                game_content.paws.right_paw_click();
+                break;
+            // key code for 'd'
+            case 68:
+                game_content.paws.right_paw_click();
+        }
+    }
+});

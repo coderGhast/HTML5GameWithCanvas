@@ -1,3 +1,5 @@
+/* Base code for this comes from: http://gamedev.stackexchange.com/questions/24102/resource-loader-for-an-html5-and-javascript-game */
+
 function ImageHandler() {
     this.sources = {
         resource1: "img/table.png",
@@ -17,14 +19,15 @@ function ImageHandler() {
         resource13: "img/controls_and_display/score_bar.png",
         resource14: "img/controls_and_display/start_game.png",
         resource15: "img/controls_and_display/title_bar.png",
+        resource16: "img/controls_and_display/help_menu.png",
 
-        resource16: "img/foodstuffs/beef_sprite.png",
-        resource17: "img/foodstuffs/bomb_sprite.png",
-        resource18: "img/foodstuffs/chicken_leg_sprite.png",
-        resource19: "img/foodstuffs/pancakes_sprite.png",
-        resource20: "img/foodstuffs/ramen_sprite.png",
-        resource21: "img/foodstuffs/sushi_sprite.png",
-        resource22: "img/foodstuffs/weight_sprite.png"
+        resource17: "img/foodstuffs/beef_sprite.png",
+        resource18: "img/foodstuffs/bomb_sprite.png",
+        resource19: "img/foodstuffs/chicken_leg_sprite.png",
+        resource20: "img/foodstuffs/pancakes_sprite.png",
+        resource21: "img/foodstuffs/ramen_sprite.png",
+        resource22: "img/foodstuffs/sushi_sprite.png",
+        resource23: "img/foodstuffs/weight_sprite.png"
     };
 };
 
