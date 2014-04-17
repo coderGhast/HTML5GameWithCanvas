@@ -15,6 +15,14 @@ Watcher.prototype.paint_watcher = function(){
     watcher_context.drawImage(this.image, 140 * this.watcher_frame, 0, 140, 190, canvas.width - (this.image.width / 7), 0, 140, 190);
 }
 
+Watcher.prototype.reset_watcher = function(){
+    this.watcher_position = 0;
+    this.watcher_frame = 6;
+    this.turn_watcher = false;
+    this.watcher_looking = false;
+    this.watcher_staring = false;
+}
+
 
 function time_watcher_turn(){
     if(game_content.watcher.turn_watcher){

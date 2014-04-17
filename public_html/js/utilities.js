@@ -70,18 +70,61 @@ $('body').on('contextmenu', '#hud_canvas', function(e){ return false; });
 /* JQuery script to detect mouse clicks! */
 $('#hud_canvas').mousedown(function(event) {
     // Check that the user isn't just clicking to turn the audio off, and not for a paw click.
-    if(event.clientY - hud_canvas.getBoundingClientRect().top > hud_canvas.height - 25 
-        && event.clientX - hud_canvas.getBoundingClientRect().left > hud_canvas.width - 25){
+    if(mousePos.y > hud_canvas.height - 25 
+        && mousePos.x > hud_canvas.width - 25){
         audio_handler.toggle_audio();
     } else {
-        if(controller.game_running){
-            game_mouse(event);
+        if(!controller.game_over){
+            if(controller.game_running){
+                game_mouse(event);
+            } else if(!controller.on_menu_screen){
+                if(hud_object.start_button_hover == 1){
+                    hud_object.start_button_hover = 0;
+                    hud_object.menu_screen_option = 0;
+                    controller.start_game();
+                    audio_handler.play_effect(0);
+                } else if(hud_object.highscores_button_hover == 1){
+                    hud_object.highscores_button_hover = 0;
+                    hud_object.menu_screen_option = 1;
+                    controller.on_menu_screen = true;
+                    audio_handler.play_effect(0);
+                } else if(hud_object.help_menu_button_hover == 1){
+                    hud_object.help_menu_button_hover = 0;
+                    hud_object.menu_screen_option = 2;
+                    controller.on_menu_screen = true;
+                    audio_handler.play_effect(0);
+                } else if(hud_object.credits_button_hover == 1){
+                    hud_object.credits_button_hover = 0;
+                    hud_object.menu_screen_option = 3;
+                    controller.on_menu_screen = true;
+                    audio_handler.play_effect(0);
+                }
+            } else {
+                if(hud_object.on_back_button()){
+                    controller.on_menu_screen = false;
+                    hud_object.menu_screen_option = 0;
+                    audio_handler.play_effect(0);
+                }
+            }
         } else {
-            alert("!!");
+            // We must have the game over screen
+            controller.game_running = false;
+            controller.game_over = false;
+            controller.score = 0;
+            hud_object.menu_screen_option = 0;
         }
     }
 
 });
+
+/* Check for if the user is mousing over a menu item on the start screen */
+function getMousePos(canvas, evt) {
+    var rect = hud_canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+}
 
 function game_mouse(event){
     // Left Click == 1

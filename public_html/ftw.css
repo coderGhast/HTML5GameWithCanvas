@@ -1,5 +1,5 @@
 body{
-	background:#aaa;
+	background:url('img/page_bg.png') repeat;
 	margin:0px;
 	padding:0px;
 	font-family:Arial;
@@ -27,7 +27,6 @@ a{
 	width:990px;
 	margin:auto;
 	text-align:center;
-
 }
 
 header{
@@ -62,7 +61,7 @@ article{
     margin: auto;
     padding:0;
     overflow:hidden;
-    border:1px solid #000;
+    border:2px solid #000;
     border-top:none;
     background:url('img/controls_and_display/score_bar.png') no-repeat top center #fff;
     position:relative;
@@ -71,10 +70,6 @@ article{
 #game_wrapper canvas{
 	position: absolute;
 	background-color: transparent;
-}
-
-#food_canvas{
-	background: url('img/table.png') no-repeat;
 }
 
 footer{

@@ -9,6 +9,7 @@ function AudioHandler(){
     this.sfx_pickup_good_2 = this.make_sound_bank("music/sfx/pickup_good_2.mp3");
     this.sfx_kick_away = this.make_sound_bank("music/sfx/kick_away.mp3");
     this.sfx_caught = this.make_sound_bank("music/sfx/caught.mp3");
+    this.sfx_select = this.make_sound_bank("music/sfx/select.mp3");
 }
 
 
@@ -40,7 +41,7 @@ AudioHandler.prototype.make_sound_bank = function(sound_location){
 // If the user has clicked to turn the audio off, go do it!
 AudioHandler.prototype.toggle_audio = function(){
     this.stop_music();
-    game_content.hud_object.toggle_audio_button();
+    hud_object.toggle_audio_button();
 }
 
 AudioHandler.prototype.loop = function() {
@@ -65,16 +66,16 @@ AudioHandler.prototype.check_music = function(){
 
 AudioHandler.prototype.play_effect = function(effect_type){
     if(this.music_play){
-        if(effect_type == 1){
-            if(Math.floor(Math.random()*(2-1+1)+1) == 1) {
-                this.choose_effect(this.sfx_pickup_good_1);
-            } else {
-                this.choose_effect(this.sfx_pickup_good_2);
-            }
-        } else if(effect_type == 2){
-            this.choose_effect(this.sfx_kick_away);
-        } else if(effect_type == 3){
-            this.choose_effect(this.sfx_caught);
+        switch(effect_type){
+            case(0): this.choose_effect(this.sfx_select); break;
+            case(1): if(Math.floor(Math.random()*(2-1+1)+1) == 1) {
+                        this.choose_effect(this.sfx_pickup_good_1);
+                    } else {
+                    this.choose_effect(this.sfx_pickup_good_2);
+            } break;
+            case(2): this.choose_effect(this.sfx_kick_away); break;
+            case(3): this.choose_effect(this.sfx_caught); break;
+            default:
         }
     }
 }

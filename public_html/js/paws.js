@@ -25,7 +25,7 @@ Paws.prototype.handle_left_paw_movement = function(){
     if(this.right_paw_extended){
         this.reset_right_paw();
     }
-    clearCanvas();
+    game_content.clear_main_canvas();
     if(!this.left_paw_extended){
         paint_left_paw_grab();
         if(this.left_movement_width <=  canvas.width / 100){
@@ -60,7 +60,7 @@ Paws.prototype.handle_right_paw_movement = function(){
     if(this.left_paw_extended){
         this.reset_left_paw();
     }
-    clearCanvas();
+    game_content.clear_main_canvas();
     if(!this.right_paw_extended){
         paint_right_paw_grab();
         if(this.right_movement_width < canvas.width / 100){
@@ -108,7 +108,7 @@ Paws.prototype.reset_right_paw = function(){
 /*
  * React to a user clicking left-click on the mouse.
  */
-Paws.prototype.left_paw_click = function() {
+ Paws.prototype.left_paw_click = function() {
     // Check that no paw is currently already moving.
     if(!this.move_left_paw && !this.left_paw_moving && !this.move_right_paw && !this.right_paw_moving){
 
@@ -128,7 +128,7 @@ Paws.prototype.left_paw_click = function() {
 /*
  * React to a user clicking right-click on the mouse.
  */
-Paws.prototype.right_paw_click = function() {
+ Paws.prototype.right_paw_click = function() {
     // Check that no paw is currently already moving.
     if(!this.move_right_paw && !this.right_paw_moving && !this.move_left_paw && !this.left_paw_moving){
         if(game_content.check_player_caught()){
@@ -141,16 +141,4 @@ Paws.prototype.right_paw_click = function() {
             }
         }
     }
-
-
-}
-
-
-Paws.prototype.loadImages = function() {
-    this.left_paw_image.onload = function() {
-        paint_left_paw();
-    };
-    this.right_paw_image.onload = function() {
-        paint_right_paw();
-    };
 }

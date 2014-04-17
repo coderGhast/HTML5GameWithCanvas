@@ -7,27 +7,25 @@ function GameContent(){
 
     this.spin_degrees = 0;
 
-    this.hud_object = new Hud();
     this.watcher = new Watcher();
 }
 
 GameContent.prototype.run = function(){
-    // Start the game loop.
-    this.paws.loadImages();
+    this.clear_main_canvas();
+    paint_left_paw();
+    paint_right_paw();
     // Add the first item to the array of game_items.
-    add_new_item();
-    // Blink, my pretties! Blink!
-    blink_controller();
-    doom_faces();
-    // Start turning the watcher
-    time_watcher_turn();
+    item_canvas.add_new_item();
 }
 
 GameContent.prototype.stop = function(){
-    // Set lives back to 5
-    // Set score back to 0
-    // Empty list of items
-    // Set paws back to reset
+    controller.lives = 5;
+    game_items.length = 0;
+    bounced_items.length = 0;
+    this.watcher.reset_watcher();
+    hud_object.most_recent_eaten = new Item("empty");
+    this.paws.reset_left_paw();
+    this.paws.reset_right_paw();
 }
 
 function animate(time){
@@ -35,9 +33,13 @@ function animate(time){
         window.requestAnimationFrame(animate);
         
         if(controller.game_running){
-            game_content.paint_game_screen();
+            if(controller.game_over){
+                hud_object.game_over_screen();
+            } else {
+                game_content.paint_game_screen();
+            }
         } else {
-            game_content.paint_start_screen();
+            hud_object.paint_menu_screen();
         }
     }, interval);
 };
@@ -53,17 +55,13 @@ GameContent.prototype.paint_game_screen = function(){
             game_content.watcher.paint_watcher();
 
             spin_controller();
-            paint_all_items();
+            item_canvas.paint_all_items();
 
-            game_content.hud_object.print_hud_overlay();
-}
-
-GameContent.prototype.paint_start_screen = function(){
-    this.hud_object.paint_start_screen();
+            hud_object.print_hud_overlay();
 }
 
 function game_step(){
-    if(controller.game_running){
+    if(controller.game_running && !controller.game_over){
         game_content.check_player_life();
         game_content.item_movement();
         game_content.handle_bounced_items();
@@ -74,8 +72,9 @@ function game_step(){
 }
 
 GameContent.prototype.check_player_life = function(){
-    if(this.hud_object.lives <=0 ){
-        this.hud_object.game_over_screen();
+    if(controller.lives <= 0){
+        controller.end_game();
+        hud_object.game_over_screen();
     }
 }
 
@@ -102,9 +101,9 @@ GameContent.prototype.item_movement = function(){
         for (var i=0;  i < game_items.length; i++) {
             if(!game_items[i].to_be_knocked){
                 if(game_items[i].y > (canvas.height / 6) * 3){
-                    this.hud_object.add_score(game_items[i].score_value);
-                    this.hud_object.copy_item(game_items[0]);
-                    this.hud_object.cat_display.cat_image_emote = 2;
+                    hud_object.add_score(game_items[i].score_value);
+                    hud_object.copy_item(game_items[0]);
+                    hud_object.cat_display.cat_image_emote = 2;
                     game_items.shift();
                 }
                 if(game_items[i].y < (canvas.height / 6 ) * 4){
@@ -112,7 +111,7 @@ GameContent.prototype.item_movement = function(){
                 }
             }
         }
-        add_new_item();
+        item_canvas.add_new_item();
         this.pull_item = false;
     } else if(this.knock_item){
         for (var i=0;  i < game_items.length; i++) {
@@ -125,7 +124,7 @@ GameContent.prototype.item_movement = function(){
             }
             bounced_items.push(game_items[i]);
             game_items.shift();
-            this.hud_object.cat_display.cat_image_emote = 0;
+            hud_object.cat_display.cat_image_emote = 0;
             audio_handler.play_effect(2);
         }
     }
@@ -138,17 +137,17 @@ GameContent.prototype.item_movement = function(){
 GameContent.prototype.check_player_caught = function(){
     var uncaught = true;
     if(this.watcher.watcher_staring){
-        this.hud_object.lives--;
+        controller.lives--;
         audio_handler.play_effect(3);
         this.watcher.watcher_frame = 0;
-        this.hud_object.cat_display.cat_image_emote = 1;
+        hud_object.cat_display.cat_image_emote = 1;
         uncaught = false;
     }
     return uncaught;
 }
 
 
-function clearCanvas() {
+GameContent.prototype.clear_main_canvas = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
