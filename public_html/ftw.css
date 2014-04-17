@@ -16,11 +16,14 @@ h2{
 }
 
 h3{
-
+	font: 15px Helvetica, Arial;
+	margin:0px;
+	padding:0px;
+	margin-bottom: -10px;
 }
 
 a{
-
+	color:#222;
 }
 
 #wrapper{
@@ -65,6 +68,34 @@ article{
     border-top:none;
     background:#9E7373;
     position:relative;
+}
+
+
+#about_wrapper{
+	width: 480px;
+    height: 579px;
+    margin: auto;
+    padding:0;
+    overflow:hidden;
+    border:2px solid #000;
+    border-top:none;
+    background:url('img/controls_and_display/about_background.png') no-repeat top center;
+    position:relative;
+}
+
+#about_text{
+	font:12px Helvetica, Arial;
+	margin-top: 90px;
+	margin-left: 70px;
+	margin-right: 70px;
+}
+
+#back_button{
+	height:40px;
+	width:100px;
+	margin: auto;
+	margin-top: 40px;
+	background: url('img/controls_and_display/back_button.png');
 }
 
 #game_wrapper canvas{

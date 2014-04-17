@@ -52,16 +52,20 @@ AudioHandler.prototype.toggle_sfx = function() {
 
 AudioHandler.prototype.stop_music = function(){
     if(this.music_play){
+        localStorage.setItem('catzeau_audio', 0);
         this.music_play = false;
     } else {
+        localStorage.setItem('catzeau_audio', 1);
         this.music_play = true;
     }
 }
 
 AudioHandler.prototype.stop_sfx = function(){
     if(this.sfx_play){
+        localStorage.setItem('catzeau_sfx', 0);
         this.sfx_play = false;
     } else {
+        localStorage.setItem('catzeau_sfx', 1);
         this.sfx_play = true;
     }
 }

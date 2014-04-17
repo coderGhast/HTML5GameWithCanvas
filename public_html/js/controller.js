@@ -12,13 +12,13 @@ function Controller(){
 }
 
 function prepare_game(){
-    controller.highscore = parseInt(localStorage.getItem('catzeau_highscore'));
-    if(isNaN(controller.highscore) || controller.highscore == null){
-        localStorage.setItem('catzeau_highscore', 0);
-        controller.highscore = 0;
-    }
+    
+    controller.check_highscore_status_storage();
+    controller.check_audio_status_storage();
+    controller.check_sfx_status_storage();
+
      // Start animation
-    requestAnimationFrame(animate);
+     requestAnimationFrame(animate);
     // Start the game logic loop
     game_step();
     add_mouse_event_listener();
@@ -49,66 +49,104 @@ Controller.prototype.end_game = function(){
     game_content.stop();
 }
 
+Controller.prototype.check_highscore_status_storage = function(){
+    controller.highscore = parseInt(localStorage.getItem('catzeau_highscore'));
+    if(isNaN(controller.highscore) || controller.highscore == null){
+        localStorage.setItem('catzeau_highscore', 0);
+        controller.highscore = 0;
+    }
+}
+
+Controller.prototype.check_audio_status_storage = function(){
+    var play_audio = parseInt(localStorage.getItem('catzeau_audio'));
+    if(isNaN(play_audio) || play_audio == null){
+        localStorage.setItem('catzeau_audio', 1);
+        audio_handler.music_play = true;
+    } else {
+        if(play_audio == 0){
+            audio_handler.music_play = false;
+            hud_object.toggle_audio_button();
+        } else {
+            audio_handler.music_play = true;
+        }
+    }
+}
+
+Controller.prototype.check_sfx_status_storage = function(){
+    var play_sfx = parseInt(localStorage.getItem('catzeau_sfx'));
+    if(isNaN(play_sfx) || play_sfx == null){
+        localStorage.setItem('catzeau_sfx', 1);
+        audio_handler.sfx_play = true;
+    } else {
+        if(play_sfx == 0){
+            audio_handler.sfx_play = false;
+            hud_object.toggle_sfx_button();
+        } else {
+            audio_handler.sfx_play = true;
+        }
+    }
+}
+
 function add_mouse_event_listener(){
     hud_canvas.addEventListener('mousemove', function(evt) {
-    mousePos = getMousePos(hud_canvas, evt);
-    if(!this.game_running){
-        controller.hover_over_start_button();
-        controller.hover_over_highscores_button();
-        controller.hover_over_help_menu_button();
-        controller.hover_over_about_button();
-    }
-}, false);
+        mousePos = getMousePos(hud_canvas, evt);
+        if(!this.game_running){
+            controller.hover_over_start_button();
+            controller.hover_over_highscores_button();
+            controller.hover_over_help_menu_button();
+            controller.hover_over_about_button();
+        }
+    }, false);
 }
 
 /* Set a variable for changing the colour of the text on the meny for the Start Game option when
- it is hovered over*/
+it is hovered over*/
 Controller.prototype.hover_over_start_button = function(){
     if(mousePos.x >= (hud_canvas.width / 2) - (hud_object.start_game_button.width / 2) && 
         mousePos.x <= (hud_canvas.width / 2) + (hud_object.start_game_button.width / 2) &&
         mousePos.y >= 360 &&
         mousePos.y <= 360 + (hud_object.start_game_button.height / 2)){
         hud_object.start_button_hover = 1;
-    } else {
-        hud_object.start_button_hover = 0;
-    }
+} else {
+    hud_object.start_button_hover = 0;
+}
 }
 
 /* Set a variable for changing the colour of the text on the meny for the Highscores option when
- it is hovered over*/
+it is hovered over*/
 Controller.prototype.hover_over_highscores_button = function(){
     if(mousePos.x >= (hud_canvas.width / 2) - (hud_object.highscores_button.width / 2) && 
         mousePos.x <= (hud_canvas.width / 2) + (hud_object.highscores_button.width / 2) &&
         mousePos.y >= 400 &&
         mousePos.y <= 400 + (hud_object.highscores_button.height / 2)){
         hud_object.highscores_button_hover = 1;
-    } else {
-        hud_object.highscores_button_hover = 0;
-    }
+} else {
+    hud_object.highscores_button_hover = 0;
+}
 }
 
 /* Set a variable for changing the colour of the text on the meny for the Help option when
- it is hovered over*/
+it is hovered over*/
 Controller.prototype.hover_over_help_menu_button = function(){
     if(mousePos.x >= (hud_canvas.width / 2) - (hud_object.help_menu_button.width / 2) && 
         mousePos.x <= (hud_canvas.width / 2) + (hud_object.help_menu_button.width / 2) &&
         mousePos.y >= 430 &&
         mousePos.y <= 430 + (hud_object.help_menu_button.height / 2)){
         hud_object.help_menu_button_hover = 1;
-    } else {
-        hud_object.help_menu_button_hover = 0;
-    }
+} else {
+    hud_object.help_menu_button_hover = 0;
+}
 }
 
 /* Set a variable for changing the colour of the text on the meny for the About option when
- it is hovered over*/
+it is hovered over*/
 Controller.prototype.hover_over_about_button = function(){
     if(mousePos.x >= (hud_canvas.width / 2) - (hud_object.about_button.width / 2) && 
         mousePos.x <= (hud_canvas.width / 2) + (hud_object.about_button.width / 2) &&
         mousePos.y >= 460 &&
         mousePos.y <= 460 + (hud_object.about_button.height / 2)){
         hud_object.about_button_hover = 1;
-    } else {
-        hud_object.about_button_hover = 0;
-    }
+} else {
+    hud_object.about_button_hover = 0;
+}
 }
