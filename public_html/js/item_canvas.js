@@ -1,11 +1,11 @@
 function ItemCanvas(){
-    this.item_names = new Array("sushi", "chicken", "ramen", "beef", "pancakes");
+    this.item_names = new Array("sushi", "chicken", "ramen", "beef", "pancakes", "bomb", "weight");
     this.table_image = new Image();
     this.table_image.src = "img/table.png";
 }
 
 ItemCanvas.prototype.add_new_item = function(){
-    var item_selection = Math.floor(Math.random()*(5-1+1)+1);
+    var item_selection = Math.floor(Math.random()*(this.item_names.length-1+1)+1);
     var new_item = new Item(this.item_names[item_selection - 1]);
     game_items.push(new_item);
 }

@@ -63,7 +63,7 @@ article{
     overflow:hidden;
     border:2px solid #000;
     border-top:none;
-    background:url('img/controls_and_display/score_bar.png') no-repeat top center #fff;
+    background:#9E7373;
     position:relative;
 }
 

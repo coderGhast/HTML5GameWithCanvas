@@ -30,9 +30,9 @@ AudioHandler.prototype.set_audio_loop = function(){
 
 AudioHandler.prototype.make_sound_bank = function(sound_location){
     var sound_bank = {};
-    for(var i=0; i<3; i++){
+    for(var i=0; i<4; i++){
         var sfx = new Audio(sound_location);
-        sfx.volume = .11;
+        sfx.volume = .09;
         sfx.load();
         sound_bank[i] = sfx;
     }
@@ -81,7 +81,7 @@ AudioHandler.prototype.play_effect = function(effect_type){
             case(1): if(Math.floor(Math.random()*(2-1+1)+1) == 1) {
                         this.choose_effect(this.sfx_pickup_good_1);
                     } else {
-                    this.choose_effect(this.sfx_pickup_good_2);
+                        this.choose_effect(this.sfx_pickup_good_2);
             } break;
             case(2): this.choose_effect(this.sfx_kick_away); break;
             case(3): this.choose_effect(this.sfx_caught); break;
@@ -91,11 +91,13 @@ AudioHandler.prototype.play_effect = function(effect_type){
 }
 
 AudioHandler.prototype.choose_effect = function(sound_bank){
-    if(sound_bank[0].duration > 0 && !sound_bank[0].paused){
-            sound_bank[2].play();
-        } else if(sound_bank[1].duration > 0 && !sound_bank[1].paused){
-            sound_bank[1].play();
-        } else {
+        if(sound_bank[0].duration > 0 && sound_bank[0].paused){
             sound_bank[0].play();
+        } else if(sound_bank[1].duration > 0 && sound_bank[1].paused){
+            sound_bank[1].play();
+        } else if(sound_bank[2].duration > 0 && sound_bank[2].paused){
+            sound_bank[2].play();
+        } else if(sound_bank[3].duration > 0 && sound_bank[3].paused){
+            sound_bank[3].play();
         }
 }

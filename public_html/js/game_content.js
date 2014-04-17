@@ -6,6 +6,7 @@ function GameContent(){
     this.keep_painting_item = true;
 
     this.spin_degrees = 0;
+    this.item_count = 0;
 
     this.watcher = new Watcher();
 }
@@ -20,6 +21,10 @@ GameContent.prototype.run = function(){
 
 GameContent.prototype.stop = function(){
     controller.lives = 5;
+    controller.multiplier = 1;
+    hud_object.multiplier_up = false;
+    hud_object.multiplier_down = false;
+    this.item_count = 0;
     game_items.length = 0;
     bounced_items.length = 0;
     this.watcher.reset_watcher();
@@ -79,6 +84,24 @@ GameContent.prototype.check_player_life = function(){
     }
 }
 
+GameContent.prototype.add_score = function(passed_score){
+    audio_handler.play_effect(1);
+    controller.score+=passed_score * controller.multiplier;
+    hud_object.paint_most_recent_eaten();
+    if(passed_score >= 0){
+        this.item_count++;
+    }
+    if(this.item_count >= 15){
+        this.item_count = 0;
+        hud_object.multiplier_up = true;
+        controller.multiplier = controller.multiplier * 2;
+    }
+
+    if(controller.score < 0 ){
+        controller.score = 0;
+    }
+}
+
 GameContent.prototype.handle_bounced_items = function(){
     if(bounced_items.length > 0){
         for(var i=0; i < bounced_items.length; i++){
@@ -102,7 +125,7 @@ GameContent.prototype.item_movement = function(){
         for (var i=0;  i < game_items.length; i++) {
             if(!game_items[i].to_be_knocked){
                 if(game_items[i].y > (canvas.height / 6) * 3){
-                    hud_object.add_score(game_items[i].score_value);
+                    this.add_score(game_items[i].score_value);
                     hud_object.copy_item(game_items[0]);
                     hud_object.cat_display.cat_image_emote = 2;
                     game_items.shift();
@@ -123,9 +146,18 @@ GameContent.prototype.item_movement = function(){
             } else {
                 game_items[i].pushed_by = 3;
             }
+            if(game_items[i].score_value >= 0){
+                hud_object.cat_display.cat_image_emote = 1;
+                if(controller.multiplier > 1){
+                    hud_object.multiplier_down = true;
+                    controller.multiplier = 1;
+                }
+                this.item_count = 0;
+            } else {
+                hud_object.cat_display.cat_image_emote = 0;
+            }
             bounced_items.push(game_items[i]);
             game_items.shift();
-            hud_object.cat_display.cat_image_emote = 0;
             audio_handler.play_effect(2);
         }
     }
@@ -138,6 +170,11 @@ GameContent.prototype.item_movement = function(){
 GameContent.prototype.check_player_caught = function(){
     var uncaught = true;
     if(this.watcher.watcher_staring){
+        if(controller.multiplier > 1){
+            hud_object.multiplier_down = true;
+            controller.multiplier = 1;
+        }
+        this.item_count = 0;
         controller.lives--;
         audio_handler.play_effect(3);
         this.watcher.watcher_frame = 0;

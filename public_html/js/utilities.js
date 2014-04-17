@@ -97,11 +97,8 @@ $('#hud_canvas').mousedown(function(event) {
                     hud_object.menu_screen_option = 2;
                     controller.on_menu_screen = true;
                     audio_handler.play_effect(0);
-                } else if(hud_object.credits_button_hover == 1){
-                    hud_object.credits_button_hover = 0;
-                    hud_object.menu_screen_option = 3;
-                    controller.on_menu_screen = true;
-                    audio_handler.play_effect(0);
+                } else if(hud_object.about_button_hover == 1){
+                    window.location = './about.html';
                 }
             } else {
                 if(hud_object.on_back_button()){

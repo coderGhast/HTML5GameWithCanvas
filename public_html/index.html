@@ -1,50 +1,37 @@
-
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset=utf-8 />
+<meta charset="utf-8">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="ftw.css" />
 <title>James Euesden - Exercises for Client Side Graphics Programming</title>
 </head>
 <body>
-<div id="wrapper">
-	<header>
-		<div id="title">
-			<h1>Exercises for Client Side Graphics Programming (CS25210)</h1>
-		</div>
-		<nav>
-			<ul id="menu">
-				<li class="menu_item">
-					<a href="index.html">Home</a>
-				</li>
-				<li class="menu_item">
-					<a href="exercise1.html">Exercise 1</a>
-				</li>
-				<li class="menu_item">
-                    <a href="exercise2.html">Exercise 2</a>
-                </li>
-			</ul>
-		</nav>
-	</header>
-	
-	<section>
-        <article>
-    			<h2>About</h2>
-    			<p>This is some web space for the exercises I do for Client Side Graphics Programming at Aberystwyth University in my second year.</p>
-                <p>Most of the work on my main project is hidden until it has reached a stage closer to completion. :) </p>
-        </article>
-	</section>
 
+<div id="title_bar"></div>
+<div id="game_wrapper">
+                    <canvas id="watcher_canvas"></canvas>
+                    <canvas id="food_canvas"></canvas>
+                    
+                    <canvas id="game_main">
+                    HTML5 Canvas is not compatible with your browser or running scripts is disabled. Please use a more up to date browser or enable running scripts.
+                    <a href="./about.html">About</a>
+                    </canvas>
+                    <canvas id="hud_canvas"></canvas>
+                    
+</div> 
 
-	<div class="clear"></div>
+<script src="js/image_handler.js"></script>
+<script src="js/utilities.js"></script>
+<script src="js/music.js"></script>
+<script src="js/items.js"></script>
+<script src="js/watcher.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/item_canvas.js"></script>
+<script src="js/paws.js"></script>
+<script src="js/game_content.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/driver.js"></script>
 
-	<footer>
-		<div id="disclaimer">The information provided on this and other pages by me, James Euesden (jee22@aber.ac.uk), is under my own personal responsibility and not that of the Aberystwyth University. Similarly, any opinions expressed are my own and are in no way to be taken as those of Aberystwyth University.
-		</div>
-	</footer>
-	<script type="text/javascript" src="js/utilities.js"></script>
-	<script type="text/javascript" src="js/first.js"></script>
-	
-</div>
 </body>
 </html>

@@ -1,4 +1,5 @@
 window.onload = function(){
+    var images = new ImageHandler();
     var controller = new Controller();
     var game_content = new GameContent();
     var audio_handler = new AudioHandler();
@@ -17,6 +18,5 @@ window.onload = function(){
     // Add the results of the mouse listener variable holder.
     window['mousePos'] = null;
 
-
-    prepare_game();
-}
+    images.load_images(images.sources, prepare_game);
+};

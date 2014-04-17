@@ -8,10 +8,13 @@ function Watcher(){
     this.watcher_staring = false;
     this.image = new Image();
     this.image.src = "img/watcher_sprite.png";
+    this.top_bar = new Image();
+    this.top_bar.src = "img/controls_and_display/score_bar.png";
 }
 
 Watcher.prototype.paint_watcher = function(){
     watcher_context.clearRect(canvas.width - (this.image.width / 7), 0, canvas.width + (this.image.width / 7), this.image.height);
+    watcher_context.drawImage(this.top_bar, 0, 0);
     watcher_context.drawImage(this.image, 140 * this.watcher_frame, 0, 140, 190, canvas.width - (this.image.width / 7), 0, 140, 190);
 }
 

@@ -39,6 +39,12 @@ Item.prototype.set_image = function(){
     } else if(this.item_type.localeCompare("pancakes") == 0){
         this.image.src = "img/foodstuffs/pancakes_sprite.png";
         this.score_value = 4;
+    } else if(this.item_type.localeCompare("bomb") == 0){
+        this.image.src = "img/foodstuffs/bomb_sprite.png";
+        this.score_value = -5;
+    } else if(this.item_type.localeCompare("weight") == 0){
+        this.image.src = "img/foodstuffs/weight_sprite.png";
+        this.score_value = -3;
     } else if(this.item_type.localeCompare("empty") == 0){
         this.image.src = "img/foodstuffs/sushi_sprite.png";
         this.score_value = 0;

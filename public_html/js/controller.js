@@ -4,6 +4,7 @@ function Controller(){
     this.level = 1;
     this.lives = 5;
     this.score = 0;
+    this.multiplier = 1;
     this.current_highscore = 0;
     this.highscore = 0;
     this.new_highscore = false;
@@ -54,7 +55,7 @@ function add_mouse_event_listener(){
         controller.hover_over_start_button();
         controller.hover_over_highscores_button();
         controller.hover_over_help_menu_button();
-        controller.hover_over_credits_button();
+        controller.hover_over_about_button();
     }
 }, false);
 }
@@ -98,15 +99,15 @@ Controller.prototype.hover_over_help_menu_button = function(){
     }
 }
 
-/* Set a variable for changing the colour of the text on the meny for the Credits option when
+/* Set a variable for changing the colour of the text on the meny for the About option when
  it is hovered over*/
-Controller.prototype.hover_over_credits_button = function(){
-    if(mousePos.x >= (hud_canvas.width / 2) - (hud_object.credits_button.width / 2) && 
-        mousePos.x <= (hud_canvas.width / 2) + (hud_object.credits_button.width / 2) &&
+Controller.prototype.hover_over_about_button = function(){
+    if(mousePos.x >= (hud_canvas.width / 2) - (hud_object.about_button.width / 2) && 
+        mousePos.x <= (hud_canvas.width / 2) + (hud_object.about_button.width / 2) &&
         mousePos.y >= 460 &&
-        mousePos.y <= 460 + (hud_object.credits_button.height / 2)){
-        hud_object.credits_button_hover = 1;
+        mousePos.y <= 460 + (hud_object.about_button.height / 2)){
+        hud_object.about_button_hover = 1;
     } else {
-        hud_object.credits_button_hover = 0;
+        hud_object.about_button_hover = 0;
     }
 }

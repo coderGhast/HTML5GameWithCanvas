@@ -1,5 +1,9 @@
 function Hud(){
     this.menu_screen_option = 0;
+    this.multiplier_up = false;
+    this.multiplier_down = false;
+    this.multiplier_count = 0;
+    this.multiplier_time = 100;
 
     this.bottom_bar_image = new Image();
     this.bottom_bar_image.src = "img/controls_and_display/bottom_bar.png";
@@ -19,9 +23,9 @@ function Hud(){
     this.help_menu_button.src = "img/controls_and_display/help.png";
     this.help_menu_button_hover = 0;
 
-    this.credits_button = new Image();
-    this.credits_button.src = "img/controls_and_display/credits.png";
-    this.credits_button_hover = 0;
+    this.about_button = new Image();
+    this.about_button.src = "img/controls_and_display/about.png";
+    this.about_button_hover = 0;
 
     this.back_button = new Image();
     this.back_button.src = "img/controls_and_display/back_button.png";
@@ -43,6 +47,16 @@ function Hud(){
     this.cat_display = new CatDisplay();
 }
 
+//====== Loading Screen =======
+Hud.prototype.paint_loading_screen = function(){
+    hud_context.fillStyle = "#000000";
+    hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
+    hud_context.font="20px Helvetica, Arial";
+    hud_context.fillStyle = "#fff";
+    hud_context.textAlign = "center";
+    hud_context.fillText("Loading...", (hud_canvas.width / 2), (hud_canvas.height / 2) - 100);
+}
+
 //====== Start Menu HUD =======
 
 Hud.prototype.paint_menu_screen = function(){
@@ -50,7 +64,7 @@ Hud.prototype.paint_menu_screen = function(){
         case(0): this.paint_start_screen(); break;
         case(1): this.paint_highscores_screen(); break;
         case(2): this.paint_help_screen(); break;
-        case(3): this.paint_credits_screen(); break;
+        case(3): this.paint_about_screen(); break;
         default: this.paint_start_screen();
     }
 }
@@ -65,10 +79,11 @@ Hud.prototype.paint_start_screen = function(){
 //====== Painting the various menu option results
 
 Hud.prototype.paint_generic_menu = function(){
+    this.paint_splash_image();
     hud_context.fillStyle = "#bccae3";
-    hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
+    hud_context.fillRect(20, 20, hud_canvas.width - 40, hud_canvas.height - 80);
     hud_context.fillStyle = "#f5f5f5";
-    hud_context.fillRect(40, 40, hud_canvas.width - 80, hud_canvas.height - 80);
+    hud_context.fillRect(40, 40, hud_canvas.width - 80, hud_canvas.height - 120);
     this.paint_audio_buttons();
 }
 
@@ -84,7 +99,7 @@ Hud.prototype.paint_help_screen = function(){
     this.paint_back_button();
 }
 
-Hud.prototype.paint_credits_screen = function(){
+Hud.prototype.paint_about_screen = function(){
     this.paint_generic_menu();
     this.paint_back_button();
 }
@@ -94,7 +109,7 @@ Hud.prototype.paint_splash_image = function(){
 }
 
 /*
- * Draw the menu items: Start, Help, Highscores, Credits)
+ * Draw the menu items: Start, Help, Highscores, About)
  */
 Hud.prototype.paint_menu_items = function(){
     // Start button
@@ -102,20 +117,20 @@ Hud.prototype.paint_menu_items = function(){
      this.start_game_button.width, (this.start_game_button.height / 2), (hud_canvas.width /2) - (this.start_game_button.width / 2), 
      360, this.start_game_button.width, (this.start_game_button.height / 2));
 
-    // Highscores
+    // Highscores button
     hud_context.drawImage(this.highscores_button, 0, this.highscores_button_hover * (this.highscores_button.height / 2),
      this.highscores_button.width, (this.highscores_button.height / 2), (hud_canvas.width /2) - (this.highscores_button.width / 2), 
      400, this.highscores_button.width, (this.highscores_button.height / 2));
 
-    // Help
+    // Help button
     hud_context.drawImage(this.help_menu_button, 0, this.help_menu_button_hover * (this.help_menu_button.height / 2),
      this.help_menu_button.width, (this.help_menu_button.height / 2), (hud_canvas.width /2) - (this.help_menu_button.width / 2), 
      430, this.help_menu_button.width, (this.help_menu_button.height / 2));
 
-    // Credits
-    hud_context.drawImage(this.credits_button, 0, this.credits_button_hover * (this.credits_button.height / 2),
-     this.credits_button.width, (this.credits_button.height / 2), (hud_canvas.width /2) - (this.credits_button.width / 2), 
-     460, this.credits_button.width, (this.credits_button.height / 2));
+    // About button
+    hud_context.drawImage(this.about_button, 0, this.about_button_hover * (this.about_button.height / 2),
+     this.about_button.width, (this.about_button.height / 2), (hud_canvas.width /2) - (this.about_button.width / 2), 
+     460, this.about_button.width, (this.about_button.height / 2));
 }
 
 // =========== Bottom Bar and Menu Controls
@@ -184,6 +199,27 @@ Hud.prototype.print_hud_overlay = function(){
     this.print_lives();
     this.paint_cat_display();
     this.paint_audio_buttons();
+    if(this.multiplier_up || this.multiplier_down){
+        this.paint_multiplier_message();
+        this.multiplier_count++
+        if(this.multiplier_count > this.multiplier_time){
+            this.multiplier_up = false;
+            this.multiplier_down = false;
+            this.multiplier_count = 0;
+        }
+    }
+}
+
+Hud.prototype.paint_multiplier_message = function(){
+    hud_context.font="27px Helvetica, Arial";
+    hud_context.fillStyle = "rgba(255, 255, 255, 1.0)";
+    hud_context.textAlign = "center";
+    if(this.multiplier_up){
+        hud_context.fillText("MULTIPLIER UP!", (hud_canvas.width / 2), (hud_canvas.height / 2) - 100);
+        hud_context.fillText("x" + controller.multiplier, (hud_canvas.width / 2), (hud_canvas.height / 2) -50);
+    } else if(this.multiplier_down){
+        hud_context.fillText("MULTIPLIER LOST!", (hud_canvas.width / 2), (hud_canvas.height / 2) - 100);
+    }
 }
 
 Hud.prototype.paint_bottom_bar = function(){
@@ -194,17 +230,12 @@ Hud.prototype.clear_hud_canvas = function(){
     hud_context.clearRect(0, 0, hud_canvas.width, hud_canvas.height);
 }
 
-Hud.prototype.add_score = function(passed_score){
-    audio_handler.play_effect(1);
-    controller.score+=passed_score;
-    this.paint_most_recent_eaten();
-}
-
 Hud.prototype.print_total_score = function(){
     hud_context.font="20px Helvetica, Arial";
     hud_context.fillStyle = "rgba(136, 191, 235, 1.0)";
     hud_context.textAlign = "center";
-    hud_context.fillText("Score: " + controller.score, (hud_canvas.width / 2), 20);
+    hud_context.fillText("Score: " + controller.score, (hud_canvas.width / 2), 15);
+    hud_context.fillText("Multiplier: x" + controller.multiplier, (hud_canvas.width / 2), 35);
 }
 
 Hud.prototype.print_highscore = function(){
@@ -214,7 +245,7 @@ Hud.prototype.print_highscore = function(){
     if(controller.new_highscore && controller.game_over){
         hud_context.fillText("NEW HIGH SCORE!!", (hud_canvas.width/2), (hud_canvas.height / 2) + 25);
     }
-    hud_context.fillText("High Score: " + controller.highscore, (hud_canvas.width / 2), (hud_canvas.height / 2) + 50);
+    hud_context.fillText("Best High Score: " + controller.highscore, (hud_canvas.width / 2), (hud_canvas.height / 2) + 50);
 }
 
 Hud.prototype.print_current_run_highscore = function(){
@@ -248,7 +279,13 @@ Hud.prototype.paint_most_recent_eaten = function(){
     hud_context.font="20px Helvetica, Arial";
     hud_context.fillStyle = "rgba(0, 0, 0, 1.0)";
     hud_context.textAlign = "start";
-    hud_context.fillText("+" + this.most_recent_eaten.score_value, this.item_box_x + (this.item_box_width / 2) + 10, this.item_box_y + (this.item_box_height / 2));
+    if(this.most_recent_eaten.score_value >= 0){
+        hud_context.fillText("+" + this.most_recent_eaten.score_value, this.item_box_x + (this.item_box_width / 2) + 10, this.item_box_y + (this.item_box_height / 2));
+    } else {
+        this.cat_display.cat_image_emote = 1;
+        hud_context.fillText(this.most_recent_eaten.score_value, this.item_box_x + (this.item_box_width / 2) + 10, this.item_box_y + (this.item_box_height / 2));
+    }
+    
 }
 
 // ======== Game Over ========
