@@ -12,9 +12,10 @@ function Controller(){
 }
 
 function prepare_game(){
-    controller.highscore = parseInt(localStorage.getItem('catzeau_highscore'))
-    if(isNaN(controller.highscore)){
+    controller.highscore = parseInt(localStorage.getItem('catzeau_highscore'));
+    if(isNaN(controller.highscore) || controller.highscore == null){
         localStorage.setItem('catzeau_highscore', 0);
+        controller.highscore = 0;
     }
      // Start animation
     requestAnimationFrame(animate);
