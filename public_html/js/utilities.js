@@ -69,10 +69,14 @@ $('body').on('contextmenu', '#hud_canvas', function(e){ return false; });
 
 /* JQuery script to detect mouse clicks! */
 $('#hud_canvas').mousedown(function(event) {
-    // Check that the user isn't just clicking to turn the audio off, and not for a paw click.
-    if(mousePos.y > hud_canvas.height - 25 
-        && mousePos.x > hud_canvas.width - 25){
+    // Check that the user isn't just clicking to turn the audio off.
+    if(mousePos.y > hud_canvas.height - 30 
+        && mousePos.x > hud_canvas.width - 30){
         audio_handler.toggle_audio();
+    } else if(mousePos.y > hud_canvas.height - 60 
+        && mousePos.y < hud_canvas.height - 30
+        && mousePos.x > hud_canvas.width - 30){
+        audio_handler.toggle_sfx();
     } else {
         if(!controller.game_over){
             if(controller.game_running){

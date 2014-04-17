@@ -41,6 +41,7 @@ Item.prototype.set_image = function(){
         this.score_value = 4;
     } else if(this.item_type.localeCompare("empty") == 0){
         this.image.src = "img/foodstuffs/sushi_sprite.png";
+        this.score_value = 0;
     }
 }
 

@@ -4,6 +4,7 @@ function AudioHandler(){
     this.audio.load();
 
     this.music_play = true;
+    this.sfx_play = true;
 
     this.sfx_pickup_good_1 = this.make_sound_bank("music/sfx/pickup_good_1.mp3");
     this.sfx_pickup_good_2 = this.make_sound_bank("music/sfx/pickup_good_2.mp3");
@@ -44,8 +45,9 @@ AudioHandler.prototype.toggle_audio = function(){
     hud_object.toggle_audio_button();
 }
 
-AudioHandler.prototype.loop = function() {
-
+AudioHandler.prototype.toggle_sfx = function() {
+    this.stop_sfx();
+    hud_object.toggle_sfx_button();
 }
 
 AudioHandler.prototype.stop_music = function(){
@@ -53,6 +55,14 @@ AudioHandler.prototype.stop_music = function(){
         this.music_play = false;
     } else {
         this.music_play = true;
+    }
+}
+
+AudioHandler.prototype.stop_sfx = function(){
+    if(this.sfx_play){
+        this.sfx_play = false;
+    } else {
+        this.sfx_play = true;
     }
 }
 
@@ -65,7 +75,7 @@ AudioHandler.prototype.check_music = function(){
 }
 
 AudioHandler.prototype.play_effect = function(effect_type){
-    if(this.music_play){
+    if(this.sfx_play){
         switch(effect_type){
             case(0): this.choose_effect(this.sfx_select); break;
             case(1): if(Math.floor(Math.random()*(2-1+1)+1) == 1) {

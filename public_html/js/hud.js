@@ -34,13 +34,11 @@ function Hud(){
     this.most_recent_eaten = new Item("empty");
     this.most_recent_eaten.image = new Image();
 
-    this.audio_button = new Image();
-    this.mute_audio_button = new Image();
-    this.mute_audio_button.src = "img/controls_and_display/unmute_audio_button.png"
-    this.unmute_audio_button = new Image();
-    this.unmute_audio_button.src = "img/controls_and_display/mute_audio_button.png"
+    this.audio_buttons = new Image();
+    this.audio_buttons.src = "img/controls_and_display/audio_buttons.png";
 
-    this.audio_button = this.mute_audio_button;
+    this.audio_button_state = 0;
+    this.sfx_button_state = 0;
 
     this.cat_display = new CatDisplay();
 }
@@ -61,7 +59,7 @@ Hud.prototype.paint_start_screen = function(){
     this.clear_hud_canvas();
     this.paint_splash_image();
     this.paint_menu_items();
-    this.paint_audio_button();
+    this.paint_audio_buttons();
 }
 
 //====== Painting the various menu option results
@@ -71,7 +69,7 @@ Hud.prototype.paint_generic_menu = function(){
     hud_context.fillRect(0, 0, hud_canvas.width, hud_canvas.height);
     hud_context.fillStyle = "#f5f5f5";
     hud_context.fillRect(40, 40, hud_canvas.width - 80, hud_canvas.height - 80);
-    this.paint_audio_button();
+    this.paint_audio_buttons();
 }
 
 Hud.prototype.paint_highscores_screen = function(){
@@ -137,15 +135,40 @@ Hud.prototype.on_back_button = function(){
     return hover;
 }
 
-Hud.prototype.paint_audio_button = function(){
-    hud_context.drawImage(this.audio_button, hud_canvas.width - this.audio_button.width, hud_canvas.height - this.audio_button.height);
+Hud.prototype.paint_audio_buttons = function(){
+    this.paint_music_button();
+    this.paint_sfx_button();
+}
+
+Hud.prototype.paint_music_button = function(){
+    hud_context.drawImage(this.audio_buttons, 
+     this.audio_button_state * (this.audio_buttons.width / 2), 0,
+     this.audio_buttons.width / 2, this.audio_buttons.height / 2,
+     hud_canvas.width - (this.audio_buttons.width / 2) - 5, hud_canvas.height - (this.audio_buttons.height / 2) - 5,
+     this.audio_buttons.width / 2, this.audio_buttons.height / 2);
 }
 
 Hud.prototype.toggle_audio_button = function(){
     if(audio_handler.music_play){
-        this.audio_button = this.mute_audio_button;
+        this.audio_button_state = 0;
     } else {
-        this.audio_button = this.unmute_audio_button;
+        this.audio_button_state = 1;
+    }
+}
+
+Hud.prototype.paint_sfx_button = function(){
+    hud_context.drawImage(this.audio_buttons, 
+     this.sfx_button_state * (this.audio_buttons.width / 2), (this.audio_buttons.height / 2),
+     this.audio_buttons.width / 2, this.audio_buttons.height / 2,
+     hud_canvas.width - (this.audio_buttons.width / 2) - 5, hud_canvas.height - (this.audio_buttons.height) - 10,
+     this.audio_buttons.width / 2, this.audio_buttons.height / 2);
+}
+
+Hud.prototype.toggle_sfx_button = function(){
+    if(audio_handler.sfx_play){
+        this.sfx_button_state = 0;
+    } else {
+        this.sfx_button_state = 1;
     }
 }
 
@@ -160,7 +183,7 @@ Hud.prototype.print_hud_overlay = function(){
     this.print_total_score();
     this.print_lives();
     this.paint_cat_display();
-    this.paint_audio_button();
+    this.paint_audio_buttons();
 }
 
 Hud.prototype.paint_bottom_bar = function(){
@@ -234,7 +257,6 @@ Hud.prototype.game_over_screen = function(){
     this.paint_final_score();
     this.print_highscore();
     this.print_game_over_text();
-    this.paint_audio_button();
 }
 
 Hud.prototype.paint_final_score = function(){
