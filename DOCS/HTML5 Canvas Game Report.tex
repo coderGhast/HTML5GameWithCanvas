@@ -1,0 +1,202 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Structured General Purpose Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{caption}
+\usepackage{float}
+\usepackage{url}
+\usepackage{subcaption}
+
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName} % Top left header
+\chead{\hmwkClass\ \hmwkTitle} % Top center header
+\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+
+\newcommand{\homeworkProblemName}{}
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+   
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{"A HTML5 Canvas game using animated sprites"} % Assignment title
+\newcommand{\hmwkDueDate}{Tuesday,\ April\ 22,\ 2014} % Due date
+\newcommand{\hmwkClass}{CS\ 25210} % Course/class
+\newcommand{\hmwkAuthorName}{James Euesden - jee22} % Your name
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\setlength\parindent{24pt}
+
+\begin{document}
+
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+
+\newpage
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+
+\section{Introduction}
+The task set\cite{assignment}
+
+
+%----------------------------------------------------------------------------------------
+%	EXECTUTIVE SUMMARY
+%----------------------------------------------------------------------------------------
+
+\section{Executive Summary}
+I wanted to create a game that was simple enough to play and grasp the concepts of, while still holding a challenge to get a high score that could become a 'beat your friends' type game. My original concept was to have a sideways conveyor belt, where 'items' would come past the user and they would have to grab them (figure 1) to get a high score in an amount of time. Each item would be generated with a random type, where each type has it's own score valure. This was an okay idea, but didn't have much charm or challenge to it. 
+
+I developed on this further to a game where the user could click as fast as they wanted, but it had to be using alternate clicks (Left to Right to Left to Right, repeat), as a consecutive click (figure 2) of a single button (Left to Left or Right to Right) (figure 3), would result in knocking an item away and losing a life (figure 4).This presented issues with rendering the animations as fast as a player could click and it just didn't seem very fun as it was too easy play mindlessly and result in losing a life.
+
+My resulting idea was to combine both of my previous ideas, plus a couple of 'wildcard' aspects, in the form of 'bad' items and the 'Watcher'(figure 4 \& 5). Both bad items and the Watcher could remove some of the players score, multiplier or lives, with the bad items being an obstacle the player had to 'knock' away with the consecutive clicks, and the Watcher forcing the player to be aware of the game as they play (figure 6). 
+
+These aspects make the game more dynamic and fun to play, with moments where the player must pause and wait for the watcher, or get caught outright by them when trying to avoid a bad item. I feel my resulting game fulfills my purpose of a fun, simple yet challenging game to play for anyone of any age to try.
+
+%----------------------------------------------------------------------------------------
+%	TECHNICAL OVERVIEW
+%----------------------------------------------------------------------------------------
+
+\section{Technical Overview}
+
+
+%----------------------------------------------------------------------------------------
+%	SOFTWARE TESTING
+%----------------------------------------------------------------------------------------
+
+\section{Software Testing}
+
+%----------------------------------------------------------------------------------------
+%	REFLECTIONS & FUTURE WORK
+%----------------------------------------------------------------------------------------
+
+\section{Reflections}
+\subsection{Future Work}
+
+%----------------------------------------------------------------------------------------
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	REFERENCES
+%----------------------------------------------------------------------------------------
+
+\begin{thebibliography}{1}
+
+\bibitem{assignment} H. Dee, "CS25210 Coursework 2014: An HTML5 Canvas game with animated sprites.", CS25210 Assessed Assignment 2013-2014, February 2014
+
+
+\end{thebibliography}
+
+
+\end{document}
+
+
