@@ -1,13 +1,3 @@
-/*
-	Many utility functons here have been learned from the book:
-	Foundation HTML5 Animation with JavaScript, by Billy
-	Lamberta and Keith Peters.
-	
-	They help support cross-browser compatibility and older browsers
-	that may not be up to the current standard.
-
-*/
-
 /**
 	Load the canvas element itself.
 */
@@ -50,6 +40,9 @@ var utilities = {}
 /**
 	Support animating for the game loop in browsers that may not yet
 	have implemented 'requestAnimationFrame' for cross-browser compatibility.
+    Code from:
+    Foundation HTML5 Animation with JavaScript, by Billy
+    Lamberta and Keith Peters.
 */
 if(!window.requestAnimationFrame){
 	window.requestAnimationFrame = (window.webkitRequestAnimationFrame ||
