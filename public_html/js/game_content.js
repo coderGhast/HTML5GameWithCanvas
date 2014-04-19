@@ -35,7 +35,6 @@ GameContent.prototype.stop = function(){
 }
 
 function animate(time){
-    setTimeout(function() {
         window.requestAnimationFrame(animate);
         
         if(controller.game_running){
@@ -47,7 +46,6 @@ function animate(time){
         } else {
             hud_object.paint_menu_screen();
         }
-    }, interval);
 };
 
 GameContent.prototype.paint_game_screen = function(){

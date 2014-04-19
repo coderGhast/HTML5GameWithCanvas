@@ -33,10 +33,15 @@ AudioHandler.prototype.make_sound_bank = function(sound_location){
     for(var i=0; i<4; i++){
         var sfx = new Audio(sound_location);
         sfx.volume = .09;
+        sfx.onended = function(){this.pause();};
         sfx.load();
         sound_bank[i] = sfx;
     }
     return sound_bank;
+}
+
+function pause_sfx(){
+
 }
 
 // If the user has clicked to turn the audio off, go do it!

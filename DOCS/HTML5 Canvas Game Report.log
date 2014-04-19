@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2013.11.17)  18 APR 2014 17:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2013.11.17)  19 APR 2014 04:27
 entering extended mode
 **D:/Users/James/University*Documents/Modules/CS252/CS25210-FTW/DOCS/HTML5*Canv
 as*Game*Report.tex
@@ -166,36 +166,126 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 ("D:\Users\James\University Documents\Modules\CS252\CS25210-FTW\DOCS\HTML5 Canv
-as Game Report.toc"
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 6.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 6.
-)
+as Game Report.toc")
 \tf@toc=\write3
- [2] [3] 
+ [2]
+<img/storyboard/original_1.png, id=12, 602.25pt x 200.75pt>
+File: img/storyboard/original_1.png Graphic file (type png)
+
+<use img/storyboard/original_1.png>
+Package pdftex.def Info: img/storyboard/original_1.png used on input line 162.
+(pdftex.def)             Requested size: 375.80542pt x 125.27238pt.
+
+<img/storyboard/original_foods.png, id=14, 602.25pt x 200.75pt>
+File: img/storyboard/original_foods.png Graphic file (type png)
+
+<use img/storyboard/original_foods.png>
+Package pdftex.def Info: img/storyboard/original_foods.png used on input line 1
+71.
+(pdftex.def)             Requested size: 375.80542pt x 125.27238pt.
+
+<img/storyboard/original_2.png, id=15, 602.25pt x 200.75pt>
+File: img/storyboard/original_2.png Graphic file (type png)
+
+<use img/storyboard/original_2.png>
+Package pdftex.def Info: img/storyboard/original_2.png used on input line 183.
+(pdftex.def)             Requested size: 375.80542pt x 125.27238pt.
+
+<img/storyboard/original_3.png, id=16, 602.25pt x 200.75pt>
+File: img/storyboard/original_3.png Graphic file (type png)
+
+<use img/storyboard/original_3.png>
+Package pdftex.def Info: img/storyboard/original_3.png used on input line 192.
+(pdftex.def)             Requested size: 375.80542pt x 125.27238pt.
+ [3 <D:/Users/James/University Documents/Modules/CS252/CS25210-FTW/DOCS/img/sto
+ryboard/original_1.png> <D:/Users/James/University Documents/Modules/CS252/CS25
+210-FTW/DOCS/img/storyboard/original_foods.png>] <img/storyboard/original_bad.p
+ng, id=22, 602.25pt x 200.75pt>
+File: img/storyboard/original_bad.png Graphic file (type png)
+
+<use img/storyboard/original_bad.png>
+Package pdftex.def Info: img/storyboard/original_bad.png used on input line 202
+.
+(pdftex.def)             Requested size: 375.80542pt x 125.27238pt.
+
+<img/storyboard/original_watcher.png, id=23, 200.75pt x 602.25pt>
+File: img/storyboard/original_watcher.png Graphic file (type png)
+
+<use img/storyboard/original_watcher.png>
+Package pdftex.def Info: img/storyboard/original_watcher.png used on input line
+ 208.
+(pdftex.def)             Requested size: 140.92792pt x 422.81271pt.
+ [4 <D:/Users/James/University Documents/Modules/CS252/CS25210-FTW/DOCS/img/sto
+ryboard/original_2.png> <D:/Users/James/University Documents/Modules/CS252/CS25
+210-FTW/DOCS/img/storyboard/original_3.png> <D:/Users/James/University Document
+s/Modules/CS252/CS25210-FTW/DOCS/img/storyboard/original_bad.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 223.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 223.
+ [5 <D:/Users/James/University Documents/Modules/CS252/CS25210-FTW/DOCS/img/sto
+ryboard/original_watcher.png (PNG copy)>]
+<img/testing/chrome_start.png, id=34, 1371.1225pt x 738.76pt>
+File: img/testing/chrome_start.png Graphic file (type png)
+
+<use img/testing/chrome_start.png>
+Package pdftex.def Info: img/testing/chrome_start.png used on input line 239.
+(pdftex.def)             Requested size: 187.89912pt x 101.23882pt.
+
+<img/testing/ff_start.png, id=35, 1371.1225pt x 730.73pt>
+File: img/testing/ff_start.png Graphic file (type png)
+
+<use img/testing/ff_start.png>
+Package pdftex.def Info: img/testing/ff_start.png used on input line 246.
+(pdftex.def)             Requested size: 187.89912pt x 100.1384pt.
+
+<img/testing/ie_start.png, id=36, 1371.1225pt x 730.73pt>
+File: img/testing/ie_start.png Graphic file (type png)
+
+<use img/testing/ie_start.png>
+Package pdftex.def Info: img/testing/ie_start.png used on input line 252.
+(pdftex.def)             Requested size: 187.89912pt x 100.1384pt.
+
+<img/testing/phone.jpg, id=37, 481.8pt x 803.0pt>
+File: img/testing/phone.jpg Graphic file (type jpg)
+ <use img/testing/phone.jpg>
+Package pdftex.def Info: img/testing/phone.jpg used on input line 262.
+(pdftex.def)             Requested size: 140.92792pt x 234.87349pt.
+
+[6 <D:/Users/James/University Documents/Modules/CS252/CS25210-FTW/DOCS/img/test
+ing/chrome_start.png> <D:/Users/James/University Documents/Modules/CS252/CS2521
+0-FTW/DOCS/img/testing/ff_start.png> <D:/Users/James/University Documents/Modul
+es/CS252/CS25210-FTW/DOCS/img/testing/ie_start.png>] [7 <D:/Users/James/Univers
+ity Documents/Modules/CS252/CS25210-FTW/DOCS/img/testing/phone.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 291--292
+[]\OT1/cmr/m/n/10 W3schools.com (Ac-cessed 18/04/2014) JavaScript Tu-to-rial [O
+n-line]. Avail-able:
+ []
+
+
 AED: lastpage setting LastPage
-[4
+[8
 
 ]
 ("D:\Users\James\University Documents\Modules\CS252\CS25210-FTW\DOCS\HTML5 Canv
 as Game Report.aux") ) 
 Here is how much of TeX's memory you used:
- 2557 strings out of 493921
- 39593 string characters out of 3144875
+ 2642 strings out of 493921
+ 41600 string characters out of 3144875
  99249 words of memory out of 3000000
- 5862 multiletter control sequences out of 15000+200000
+ 5933 multiletter control sequences out of 15000+200000
  8501 words of font info for 30 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 36i,10n,43p,631b,236s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,11n,43p,500b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/ams
 fonts/cm/cmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfo
 nts/cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr9.pfb>
-Output written on "HTML5 Canvas Game Report.pdf" (4 pages, 70332 bytes).
+s/cm/cmmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmr9.pfb>
+Output written on "HTML5 Canvas Game Report.pdf" (8 pages, 1793577 bytes).
 PDF statistics:
- 31 PDF objects out of 1000 (max. 8388607)
+ 68 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
