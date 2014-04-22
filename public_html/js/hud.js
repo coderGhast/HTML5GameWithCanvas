@@ -1,3 +1,4 @@
+/* The informative 'Heads Up Display' shown to the player, including the menus */
 function Hud(){
     this.menu_screen_option = 0;
     this.multiplier_up = false;

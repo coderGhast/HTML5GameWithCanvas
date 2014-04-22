@@ -1,3 +1,4 @@
+/* Some functions and variables to do with moving and painting the paws */
 function Paws(){
     //====== Images =====
     this.left_paw_image = new Image();

@@ -1,5 +1,4 @@
-//============= All info about the WATCHER
-
+/* Functions and variables about the Watcher when in-game */
 function Watcher(){
     this.watcher_position = 0;
     this.watcher_frame = 6;
@@ -29,9 +28,11 @@ Watcher.prototype.reset_watcher = function(){
     this.watcher_staring = false;
 }
 
-
+/* If the flag is up to turn the watcher, turn the watcher
+ * the way he should be turning. */
 function time_watcher_turn(){
     if(game_content.watcher.turn_watcher){
+        // If he is looking, take it down so he is not looking.
         if(game_content.watcher.watcher_looking){
             game_content.watcher.watcher_staring = false;
             game_content.watcher.watcher_frame++;
@@ -51,10 +52,13 @@ function time_watcher_turn(){
     setTimeout(time_watcher_turn, interval * 5);
 }
 
+/* Set a random amount of time until the Watcher should  turn again, based upon the current multiplier */
 Watcher.prototype.update_random_turn_time = function(){
     this.random_turn_time = (Math.floor(Math.random()*((400 / (controller.multiplier / 10))-100+1)+100));
 }
 
+/* Choose what state the watcher should be in right now, and keep a check on how long
+ * has been watching for if currently staring, to avoid possibility of always watching */
 Watcher.prototype.decide_watcher_state = function(){
     if(this.turn_watcher == false){
         if(this.looking_count == 0 && !this.watcher_staring){

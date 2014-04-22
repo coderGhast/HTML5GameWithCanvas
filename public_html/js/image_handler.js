@@ -1,5 +1,7 @@
-/* Base code for this comes from: http://gamedev.stackexchange.com/questions/24102/resource-loader-for-an-html5-and-javascript-game */
+/* Base code for this comes from: 
+ * http://gamedev.stackexchange.com/questions/24102/resource-loader-for-an-html5-and-javascript-game */
 
+/* Pre load the images so they are in the cache of the player */
 function ImageHandler() {
     this.sources = {
         resource1: "img/table.png",
@@ -31,6 +33,7 @@ function ImageHandler() {
     };
 };
 
+/* Load the images! Don't play the game until they're all loaded */
 ImageHandler.prototype.load_images = function(sources, callback){
     var images = {};
     var loadedImages = 0;

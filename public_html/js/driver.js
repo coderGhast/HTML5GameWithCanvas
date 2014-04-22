@@ -1,3 +1,5 @@
+/* Starts the game on the opening of the page */
+
 window.onload = function(){
     var images = new ImageHandler();
     var controller = new Controller();

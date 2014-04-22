@@ -1,3 +1,4 @@
+/* Deadling with animations and items upon the 'item/food' canvas. */
 function ItemCanvas(){
     this.item_names = new Array("sushi", "chicken", "ramen", "beef", "pancakes", "bomb", "weight");
     this.table_image = new Image();
@@ -15,6 +16,7 @@ ItemCanvas.prototype.clear_item_canvas = function() {
     food_context.drawImage(this.table_image, 0, 0);
 }
 
+/* Controls how an item spins as it is knocked off the table */
 function spin_controller(){
     game_content.spin_degrees = game_content.spin_degrees + 4;
     if(game_content.spin_degrees > 360){
@@ -22,6 +24,7 @@ function spin_controller(){
     }
 }
 
+/* Controls how each item randomly blinks over time */
 function blink_controller(){
     for (var i=0; i < game_items.length; i++) {
         game_items[i].update_blink();
@@ -29,6 +32,7 @@ function blink_controller(){
     setTimeout(blink_controller, interval * 35);
 }
 
+/* Paints both bounced and on-table items */
 ItemCanvas.prototype.paint_all_items = function(){
     this.clear_item_canvas();
     for (var i=0,  len = game_items.length; i < len; i++) {

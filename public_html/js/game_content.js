@@ -1,3 +1,4 @@
+/* Holds variables that control the state of the current game and it's animations */
 function GameContent(){
     this.paws = new Paws();
 
@@ -11,6 +12,7 @@ function GameContent(){
     this.watcher = new Watcher();
 }
 
+/* Run the game! */
 GameContent.prototype.run = function(){
     this.clear_main_canvas();
     paint_left_paw();
@@ -19,6 +21,7 @@ GameContent.prototype.run = function(){
     item_canvas.add_new_item();
 }
 
+/* Stop the game, and update any variables/reset those that need resetting at the end */
 GameContent.prototype.stop = function(){
     controller.lives = 5;
     controller.multiplier = 1;
@@ -34,36 +37,39 @@ GameContent.prototype.stop = function(){
     this.paws.reset_right_paw();
 }
 
+/* The animation rendering loop */
 function animate(time){
-        window.requestAnimationFrame(animate);
-        
-        if(controller.game_running){
-            if(controller.game_over){
-                hud_object.game_over_screen();
-            } else {
-                game_content.paint_game_screen();
-            }
+    window.requestAnimationFrame(animate);
+
+    if(controller.game_running){
+        if(controller.game_over){
+            hud_object.game_over_screen();
         } else {
-            hud_object.paint_menu_screen();
+            game_content.paint_game_screen();
         }
+    } else {
+        hud_object.paint_menu_screen();
+    }
 };
 
+/*  Paint objects to the screen */
 GameContent.prototype.paint_game_screen = function(){
-            if(game_content.paws.move_left_paw){
-                game_content.paws.handle_left_paw_movement();
-            }
-            if(game_content.paws.move_right_paw){
-                game_content.paws.handle_right_paw_movement();
-            }
+    if(game_content.paws.move_left_paw){
+        game_content.paws.handle_left_paw_movement();
+    }
+    if(game_content.paws.move_right_paw){
+        game_content.paws.handle_right_paw_movement();
+    }
 
-            game_content.watcher.paint_watcher();
+    game_content.watcher.paint_watcher();
 
-            spin_controller();
-            item_canvas.paint_all_items();
+    spin_controller();
+    item_canvas.paint_all_items();
 
-            hud_object.print_hud_overlay();
+    hud_object.print_hud_overlay();
 }
 
+/* The logical loop for each game step, checking the state of the game */
 function game_step(){
     if(controller.game_running && !controller.game_over){
         game_content.check_player_life();
@@ -75,6 +81,7 @@ function game_step(){
     setTimeout(game_step, interval);
 }
 
+/* Check how much life a player has, and if they have no lives, end the game */
 GameContent.prototype.check_player_life = function(){
     if(controller.lives <= 0){
         controller.end_game();
@@ -82,6 +89,8 @@ GameContent.prototype.check_player_life = function(){
     }
 }
 
+/* Add the score of the most recently eaten item to the total score, this
+* includes positive and negative scores */
 GameContent.prototype.add_score = function(passed_score){
     audio_handler.play_effect(1);
     controller.score+=passed_score * controller.multiplier;
@@ -89,24 +98,30 @@ GameContent.prototype.add_score = function(passed_score){
     if(passed_score >= 0){
         this.item_count++;
     } else {
-        
+
         this.item_count = 0;
         if(controller.multiplier > 1){
             controller.multiplier = 1;
             hud_object.multiplier_down = true;
         }
     }
-    if(this.item_count >= 15){
-        this.item_count = 0;
-        hud_object.multiplier_up = true;
-        controller.multiplier = controller.multiplier * 2;
-    }
+    this.check_multiplier();
 
     if(controller.score < 0 ){
         controller.score = 0;
     }
 }
 
+/* If the player has eaten 15 good items in a row, up their multiplier */
+GameContent.prototype.check_multiplier = function(){
+    if(this.item_count >= 15){
+        this.item_count = 0;
+        hud_object.multiplier_up = true;
+        controller.multiplier = controller.multiplier * 2;
+    }
+}
+
+/* Handle the spinning and 'bouncing' animations of items knocked away */
 GameContent.prototype.handle_bounced_items = function(){
     if(bounced_items.length > 0){
         for(var i=0; i < bounced_items.length; i++){
@@ -125,6 +140,7 @@ GameContent.prototype.handle_bounced_items = function(){
 }
 }
 
+/* See if the items should be shifted down the screen at all */
 GameContent.prototype.item_movement = function(){
     if(this.pull_item && !this.paws.move_right_paw && !this.paws.move_left_paw){
         for (var i=0;  i < game_items.length; i++) {
@@ -170,8 +186,8 @@ GameContent.prototype.item_movement = function(){
 }
 }
 
-
-
+/* Look to see if the Watcher is currently staring as the user tries to click
+ * to move a paw */
 GameContent.prototype.check_player_caught = function(){
     var uncaught = true;
     if(this.watcher.watcher_staring){
@@ -189,11 +205,12 @@ GameContent.prototype.check_player_caught = function(){
     return uncaught;
 }
 
-
+/* Wipe the main canvas clean */
 GameContent.prototype.clear_main_canvas = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+/* Paint the movement and rotation of the left paw */
 function paint_left_paw_grab(){
     context.save();
     context.translate(0 - (game_content.paws.left_paw_image.width / 2), canvas.height - (game_content.paws.left_paw_image.height * 1.3));
@@ -205,6 +222,7 @@ function paint_left_paw_grab(){
     context.restore();
 }
 
+/* Paint the movement and rotation of the right paw */
 function paint_right_paw_grab(){
     context.save();
     context.translate(canvas.width - (game_content.paws.right_paw_image.width / 2), canvas.height - (game_content.paws.right_paw_image.height * 1.3));
@@ -214,12 +232,14 @@ function paint_right_paw_grab(){
     context.restore();
 }
 
+/* Paint the default state of the left paw */
 function paint_left_paw(){
     context.drawImage(game_content.paws.left_paw_image, 
         0 - (game_content.paws.left_paw_image.width / 2), canvas.height - (game_content.paws.left_paw_image.height * 1.3));
 
 }
 
+/* Paint the default state of the right paw */
 function paint_right_paw(){
     context.drawImage(game_content.paws.right_paw_image, 
         canvas.width - (game_content.paws.right_paw_image.width / 2), canvas.height - (game_content.paws.right_paw_image.height * 1.3));

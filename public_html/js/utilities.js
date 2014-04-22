@@ -74,6 +74,9 @@ $('#hud_canvas').mousedown(function(event) {
         if(!controller.game_over){
             if(controller.game_running){
                 game_mouse(event);
+                // The user must be on the menu screen, so check if they're 
+                // hovering over a button that they could be about to click,
+                // and change the image to 'hover'.
             } else if(!controller.on_menu_screen){
                 if(hud_object.start_button_hover == 1){
                     hud_object.start_button_hover = 0;

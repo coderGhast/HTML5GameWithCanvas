@@ -1,3 +1,4 @@
+/* Things to do with the sound content of the game */
 function AudioHandler(){
     this.audio = new Audio("music/scheming_weasel_faster.mp3");
     this.set_audio_loop();
@@ -13,7 +14,7 @@ function AudioHandler(){
     this.sfx_select = this.make_sound_bank("music/sfx/select.mp3");
 }
 
-
+/* Set the music to loop through an event listener */
 AudioHandler.prototype.set_audio_loop = function(){
     if (typeof this.audio.loop == 'boolean')
     {
@@ -28,6 +29,8 @@ AudioHandler.prototype.set_audio_loop = function(){
     }
 }
 
+/* Create multiple copies of the same sound effects in order to play multiple
+ * of the same sound at the same time. */
 AudioHandler.prototype.make_sound_bank = function(sound_location){
     var sound_bank = {};
     for(var i=0; i<4; i++){
@@ -38,10 +41,6 @@ AudioHandler.prototype.make_sound_bank = function(sound_location){
         sound_bank[i] = sfx;
     }
     return sound_bank;
-}
-
-function pause_sfx(){
-
 }
 
 // If the user has clicked to turn the audio off, go do it!
@@ -55,6 +54,7 @@ AudioHandler.prototype.toggle_sfx = function() {
     hud_object.toggle_sfx_button();
 }
 
+/* Mute/Unmute the music, and set this as the preference in the local storage */
 AudioHandler.prototype.stop_music = function(){
     if(this.music_play){
         localStorage.setItem('catzeau_audio', 0);
@@ -65,6 +65,7 @@ AudioHandler.prototype.stop_music = function(){
     }
 }
 
+/* Mute/Unmute the sound effects, and set this as the preference in the local storage */
 AudioHandler.prototype.stop_sfx = function(){
     if(this.sfx_play){
         localStorage.setItem('catzeau_sfx', 0);
@@ -83,6 +84,7 @@ AudioHandler.prototype.check_music = function(){
     }
 }
 
+/* Play a sound effect. If one sound effect isn't available, try another. */
 AudioHandler.prototype.play_effect = function(effect_type){
     if(this.sfx_play){
         switch(effect_type){
@@ -99,6 +101,7 @@ AudioHandler.prototype.play_effect = function(effect_type){
     }
 }
 
+/* Play the requested type of sound effect for the right action. */
 AudioHandler.prototype.choose_effect = function(sound_bank){
         if(sound_bank[0].duration > 0 && sound_bank[0].paused){
             sound_bank[0].play();

@@ -1,3 +1,4 @@
+/** Handles things like the lives and score of the player, passing data between different objects */
 function Controller(){
     this.game_running = false;
     this.on_menu_screen = false;
@@ -11,8 +12,8 @@ function Controller(){
     this.game_over = false;
 }
 
+/* Set up the game for initial running */
 function prepare_game(){
-    
     controller.check_highscore_status_storage();
     controller.check_audio_status_storage();
     controller.check_sfx_status_storage();
@@ -29,11 +30,14 @@ function prepare_game(){
     time_watcher_turn();
 }
 
+/* Start the game from the beginning */
 Controller.prototype.start_game = function(){
     game_content.run();
     this.game_running = true;
 }
 
+/* Handle the end of a game, resetting the necessary values, 
+ * updating the high score if necessary and setting a couple of boolean flags */
 Controller.prototype.end_game = function(){
     this.game_over = true;
     if(this.current_highscore < this.score){
@@ -49,6 +53,8 @@ Controller.prototype.end_game = function(){
     game_content.stop();
 }
 
+/* Check the high score containing in local storage. 
+ * if it doesn't exist, make it exist */
 Controller.prototype.check_highscore_status_storage = function(){
     controller.highscore = parseInt(localStorage.getItem('catzeau_highscore'));
     if(isNaN(controller.highscore) || controller.highscore == null){
@@ -57,6 +63,7 @@ Controller.prototype.check_highscore_status_storage = function(){
     }
 }
 
+/* Check the users preferences for the music mute */
 Controller.prototype.check_audio_status_storage = function(){
     var play_audio = parseInt(localStorage.getItem('catzeau_audio'));
     if(isNaN(play_audio) || play_audio == null){
@@ -72,6 +79,7 @@ Controller.prototype.check_audio_status_storage = function(){
     }
 }
 
+/* Check the users preferences for the sound effects mute */
 Controller.prototype.check_sfx_status_storage = function(){
     var play_sfx = parseInt(localStorage.getItem('catzeau_sfx'));
     if(isNaN(play_sfx) || play_sfx == null){
@@ -87,6 +95,7 @@ Controller.prototype.check_sfx_status_storage = function(){
     }
 }
 
+/* Add an event listener for the mouse clicking on the home screen buttons */
 function add_mouse_event_listener(){
     hud_canvas.addEventListener('mousemove', function(evt) {
         mousePos = getMousePos(hud_canvas, evt);
